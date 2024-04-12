@@ -11,11 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/view": "^9.0.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
-    "fastify": "^4.26.2",
     "mysql2": "^3.9.4"
   }
 }
