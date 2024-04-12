@@ -1,0 +1,89 @@
+<%- include('./shared/header.ejs') %>
+    
+    <h1><%= title %></h1>
+    <form action="/users" method="post">
+        <div>
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" required>
+        </div>
+        <div>
+            <label for="sexe">Sexe:</label>
+            <select id="sexe" name="sexe" required>
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+                <option value="Autre">Autre</option>
+                <option value="None">Préfère ne pas répondre</option>
+            </select>
+        </div>
+        <div>
+            <label for="ville">Ville:</label>
+            <input type="text" id="ville" name="ville" required>
+        </div>
+        <div>
+            <label for="code_postal">Code Postal:</label>
+            <input type="text" id="code_postal" name="code_postal" required>
+        </div>
+        <div>
+            <label for="region">Region:</label>
+            <input type="text" id="region" name="region" required>
+        </div>
+        <div>
+            <label for="pays">Pays:</label>
+            <input type="text" id="pays" name="pays" required>
+        </div>
+        <div>
+            <label for="education">Education:</label>
+            <select id="education" name="education">
+                <option value="" hidden>Choisissez un diplôme</option>
+                <optgroup label="Niveau 3">
+                  <option value="CAP">CAP (Certificat d'aptitude professionnelle)</option>
+                  <option value="BEP">BEP (Brevet d'études professionnelles)</option>
+                  <option value="MC">MC (Mention complémentaire)</option>
+                </optgroup>
+                <optgroup label="Niveau 4">
+                  <option value="BacPro">Baccalauréat professionnel</option>
+                  <option value="BP">BP (Brevet professionnel)</option>
+                  <option value="BT">BT (Brevet de technicien)</option>
+                </optgroup>
+                <optgroup label="Niveau 5">
+                  <option value="BTS">BTS (Brevet de technicien supérieur)</option>
+                  <option value="DUT">DUT (Diplôme universitaire de technologie)</option>
+                  <option value="DEUST">DEUST (Diplôme d'études universitaires scientifiques et techniques)</option>
+                </optgroup>
+                <optgroup label="Niveau 6">
+                  <option value="Licence">Licence</option>
+                  <option value="LicencePro">Licence professionnelle</option>
+                  <option value="Bachelor">Bachelor</option>
+                </optgroup>
+                <optgroup label="Niveau 7">
+                  <option value="Master">Master</option>
+                  <option value="Ingenieur">Diplôme d'ingénieur</option>
+                  <option value="EcoleCommerce">Diplôme d'école de commerce</option>
+                </optgroup>
+                <optgroup label="Niveau 8">
+                  <option value="Doctorat">Doctorat</option>
+                  <option value="HDR">HDR (Habilitation à diriger des recherches)</option>
+                </optgroup>
+            </select>
+        </div>
+        <div>
+            <label for="occupation">Occupation:</label>
+            <select name="occupation">
+                <option value="" hidden>Choisissez une occupation</option>
+                <option value="etudiant">Étudiant</option>
+                <option value="employe_temps_plein">Employé à temps plein</option>
+                <option value="employe_temps_partiel">Employé à temps partiel</option>
+                <option value="sans_emploi">Sans emploi</option>
+                <option value="retraite">Retraité</option>
+                <option value="autre">Autre</option>
+            </select>              
+        </div>
+        <div>
+            <label for="commentaire">Commentaire:</label>
+            <textarea id="commentaire" name="commentaire"></textarea>
+        </div>
+        <button type="submit">Add User</button>
+    </form>
+
+<%- include('./shared/footer.ejs') %>
+
