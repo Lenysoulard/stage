@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import globalRoute from "./routes/global.route.js";
+import reponseRoute from "./routes/reponse.route.js";
+import dilemmeContextualiseRoute from "./routes/dilemme_contextualise.route.js";
+import dilemmeDefautRoute from "./routes/dilemme_defaut.route.js";
 
 const app = express();
 
@@ -15,6 +18,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(userRoute);
 app.use(globalRoute);
+app.use(reponseRoute);
+app.use(dilemmeContextualiseRoute);
+app.use(dilemmeDefautRoute);
 
 const start = () => {
     try {
