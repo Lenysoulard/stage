@@ -1,8 +1,8 @@
-import { getdilemmeDefaut, getdilemmesDefaut } from "../controllers/dilemme_defaut.controller";
+import { getDilemmeDefaut, getDilemmesDefaut } from "../controllers/dilemme_defaut.controller.js";
 import express from 'express';
 const router = express.Router();
 
-router.get('/dilemmes_defaut', getdilemmesDefaut);
-router.get('/dilemme_defaut/:id', getdilemmeDefaut);
+router.get('/dilemmes_defaut', getDilemmesDefaut);
+router.get('/dilemme_defaut/:id', getDilemmeDefaut);
 
 export default router;

@@ -1,6 +1,6 @@
-import { getDilemmeDefautById, getDilemmeDefauts } from "../services/dilemme_defaut.service";
+import { getDilemmeDefautById, getDilemmeDefauts } from "../services/dilemme_defaut.service.js";
 
-export const getdilemmesDefaut = async (req, res) => {
+export const getDilemmesDefaut = async (req, res) => {
     try {
         const dilemmesDefaut = await getDilemmeDefauts();
         res.status(200).json(dilemmesDefaut);
@@ -9,7 +9,7 @@ export const getdilemmesDefaut = async (req, res) => {
     }
 }
 
-export const getdilemmeDefaut = async (req, res) => {
+export const getDilemmeDefaut = async (req, res) => {
     try {
         const dilemmeDefaut = await getDilemmeDefautById(req.params.id);
         res.status(200).json(dilemmeDefaut);
