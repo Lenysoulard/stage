@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
 </head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/particip">Participer</a>
-        <a href="/contact">Contact</a>
-    </nav>
-    <div>
-        <% if (locals.success) { %>
-            <h1><%= success %></h1>
-        <% } %>
+<body class="bg-dark text-light">
+    <header class="w-100">
+        <nav class="d-flex justify-content-center mx-auto w-100 py-2  shadow">
+            <ul class="nav">
+                <li class="nav-item me-3 nav-items-border-hover">
+                    <a class="nav-link vc text-light" href="/">Home</a>
+                </li>
+                <li class="nav-item me-3 nav-items-border-hover"> 
+                    <a class="nav-link text-light" href="/particip">Participer</a>
+                </li>
+                <li class="nav-item nav-items-border-hover">
+                    <a class="nav-link text-light" href="/contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
     
-    </div>
+    

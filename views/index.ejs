@@ -1,7 +1,48 @@
 <%- include('./shared/header.ejs') %>
-
-    <% if (locals.title) { %>
-        <h1><%= title %></h1>
-    <% } %>
-
+    <div class="d-flex">
+        <div class="text-light w-50" id="text-presentation">
+            <h1 class="mb-4">Qui sommes-nous ?</h1>
+            <p>
+                Le laboratoire Epsylon existe depuis le 1er janvier 2011. il se donne comme objectif de mieux comprendre les processus psychologiques
+                et psychosociologiques impliqués dans les variations temporelles des capacités humaines et des conduites de santé. Son activité est
+                organisée autour de 3 axes de recherche
+            </p>
+            <ul>
+                <li>
+                    Axe 1 : Axe santé
+                </li>
+                <li>
+                    Axe 2 : Axe Education et Professionnalisation
+                </li>
+                <li>
+                    Axe 3 : Axe Innovation et transfert technologique
+                </li>
+            </ul>
+            <p>
+                Le laboratoire a été créé en 2011 en s'assignant deux objectifs scientifiques : (1) améliorer et/ou proposer des modèles de changements
+                de comportements et (2) trouver des stratégies innovantes d'amélioration de la qualité de vie de personnes vulnérables en adoptant des
+                modèles théoriques interactionnistes et multifactoriels. Nous nous intéressions à la manière dont l'individu interagit et s'adapte à
+                son environnement et comment ses capacités humaines et ses conduites de santé s'en trouvent modifiées.
+            </p>
+            <p>
+                Le projet actuel du laboratoire Epsylon s'inscrit dans la continuité des principaux objectifs scientifiques historiques de notre unité
+                 en nous intéressant aux relations entre les processus cognitifs, socio-cognitifs et affectifs dans les états psychologiques normaux et
+                  troublés. Ces relations seront appréhendées au sein de domaines d'application comprenant la santé et l'éducation et la professionnalisation 
+                  (voir la présentation plus détaillée des axes sur la page dédiée sur le site ).            
+            </p>
+            <p>
+                Ces axes constitueront également un socle solide pour développer et concevoir des projets pour l'axe transversal «innovation et transfert 
+                technologique». Cet axe permettra d'ancrer davantage encore nos savoirs et savoir-faire dans l'environnement économique et social de la région 
+                et de faire écho à la politique scientifique actuelle de l'établissement qui affiche un resserrage autour des «humanités du numérique».
+                Les recherches menées dans les axes «Santé» et «Education et professionnalisation» incluront une visée fondamentale, alors que les recherches 
+                menées dans l'axe transversal «Innovation et transfert technologique» seront principalement à visée appliquée. Cet axe s'appuie sur l'expertise
+                méthodologique des membres du laboratoire afin de mener des recherches interventionnelles et le développement de nouveaux outils dans les domaines de la santé,
+                de l'éduction et de la professionnalisation.
+            </p>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <img src="/img/img-presentation.jpg" alt="image de présentation" class="img-fluid shadow rounded-2" id="img-presentation">
+        </div>
+    </div>
+    
 <%- include('./shared/footer.ejs') %>
