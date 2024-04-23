@@ -14,6 +14,6 @@ export const getDilemmeContextualiseIdDefaut = async (req, res) => {
         const dilemmeContextualise = await getDilemmeDefaut(req.params.id);
         res.status(200).json(dilemmeContextualise);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err.message, body: req.body});
     }
 }

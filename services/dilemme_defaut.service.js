@@ -5,9 +5,10 @@ import dilemmeDefautModel from "../models/dilemme_defaut.model.js";
 export const getDilemmeDefauts = async () => {
     try {
         const dilemmesDefaut = await getDilemme();
-        return dilemmesDefaut.map(dilemmeDefaut => new dilemmeDefautModel(dilemmeDefaut.id, dilemmeDefaut.description, dilemmeDefaut.choix1, dilemmeDefaut.choix2));
+        return dilemmesDefaut.map(dilemmeDefaut => new dilemmeDefautModel(dilemmeDefaut.id, dilemmeDefaut.description, dilemmeDefaut.choix_1, dilemmeDefaut.choix_2));
     } catch (err) {
-        throw new Error(err);
+        const error = err + ". Erreur dans la fonction getDilemmeDefauts() du service dilemme_defaut.service.js"
+        throw new Error(error);
     }
 }
 

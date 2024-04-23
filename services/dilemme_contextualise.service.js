@@ -4,17 +4,17 @@ import { getDilemmeContextualiseById as getDilemmeContextualiseId, getDilemmeCon
 export const getDilemmeContextualiseById = async (id) => {
     try {
         const dilemmeContextualise = await getDilemmeContextualiseId(id);
-        return new dilemmeContextualiseModel(dilemmeContextualise[0].id, dilemmeContextualise[0].id_dilemmes_defaut, dilemmeContextualise[0].id_contexte);
+        return new dilemmeContextualiseModel(dilemmeContextualise[0].id, dilemmeContextualise[0].id_dilemme_defaut, dilemmeContextualise[0].id_contexte);
     } catch (err) {
-        throw new Error(err);
+        throw new Error(err );
     }
 }
 
 export const getDilemmeContextualiseByIdDefaut = async (id) => {
     try {
         const dilemmesContextualise = await getDilemmeContextualiseIdDefaut(id);
-        return dilemmesContextualise.map(dilemmeContextualise => new dilemmeContextualiseModel(dilemmeContextualise.id, dilemmeContextualise.id_dilemmes_defaut, dilemmeContextualise.id_contexte));
+        return dilemmesContextualise.map(dilemmeContextualise => new dilemmeContextualiseModel(dilemmeContextualise.id, dilemmeContextualise.id_dilemme_defaut, dilemmeContextualise.id_contexte));
     } catch (err) {
-        throw new Error(err);
+        throw new Error(err + ". fichier : dilemme_contextualise.service.js");
     }
 }
