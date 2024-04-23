@@ -1,18 +1,19 @@
 const btn_suivant = document.getElementById('btn-suivant');
 const choixtab = [];
-const listIdContexteAlreadySeen = [];
+let listIdContexteAlreadySeen = [];
 const idDilemmeDefautDejaVu = [];
 let count = 1;
 btn_suivant.addEventListener('click', function() {
-
-    console.log(count);
-    console.log(idDilemmeDefautDejaVu);
     if (count < 12 && AnChoiceIsChecked()) {
         const idDilemme = document.getElementById('dilemme').dataset.idDefaut;
         if (!idDilemmeDefautDejaVu.includes(idDilemme)) {
             idDilemmeDefautDejaVu.push(idDilemme);
         }
         pushChoixTab();
+
+        // Uncheck all choices
+        document.getElementById('choix1').checked = false;
+        document.getElementById('choix2').checked = false;
 
         // fetch new default dilemme
         if (count%3==0) {
@@ -26,7 +27,6 @@ btn_suivant.addEventListener('click', function() {
         else{
             showContexte(idDilemme, count);
         }
-        console.log(choixtab);
         count++;
     }
     else if (count == 12) {
@@ -85,10 +85,6 @@ async function showNewDilemme() {
         // Replace choices with new dilemme choices
         document.getElementById('choix1').previousElementSibling.textContent = randomDilemmeDefaut.choix1;
         document.getElementById('choix2').previousElementSibling.textContent = randomDilemmeDefaut.choix2;
-        
-        // Uncheck all choices
-        document.getElementById('choix1').checked = false;
-        document.getElementById('choix2').checked = false;
 
         // Clear the list of contexte already seen
         listIdContexteAlreadySeen = [];
@@ -107,9 +103,12 @@ async function showContexte(id, count) {
         const data = await response.json();
 
         // Get a random dilemme contexte from the retrieved data
-        const randomIndex = Math.floor(Math.random() * data.length);
-        const randomDilemmeContexte = data[randomIndex];
-
+        let randomDilemmeContexte;
+        do{
+            const randomIndex = Math.floor(Math.random() * data.length);
+            randomDilemmeContexte = data[randomIndex];    
+        }while(listIdContexteAlreadySeen.includes(randomDilemmeContexte.id));
+        
         if (randomDilemmeContexte && !listIdContexteAlreadySeen.includes(randomDilemmeContexte.id)) {
             // Fetch contexte data by contexte id
             const responseContexte = await fetch('/contexte/' + randomDilemmeContexte.id_contexte);
@@ -154,7 +153,9 @@ document.getElementById('form').querySelector('form').addEventListener('submit',
     const education = document.getElementById('education').value;
     const occupation = document.getElementById('occupation').value;
     const commentaire = document.getElementById('commentaire').value;
-    console.log(JSON.stringify({age, sexe, ville, code_postal, region, pays, education, occupation, commentaire}));
+    
+    
+
    
     fetch('/users', {
         method: 'POST',
@@ -166,7 +167,13 @@ document.getElementById('form').querySelector('form').addEventListener('submit',
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        fetchReponse(data.id);
+        fetchReponse(data.id)
+        .then(data => {
+            document.getElementById('form').remove();
+            let clone = document.getElementById('reponse_send_template').content.cloneNode(true);
+            clone = clone.firstElementChild;
+            document.querySelector('main > div').appendChild(clone);
+        });
     })
     .catch(error => console.error('Erreur:', error));
 });
