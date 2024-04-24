@@ -19,8 +19,8 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.raw({
-    type: 'application/json',  // Vous pouvez ajuster le type MIME en fonction de vos besoins
-    limit: '1mb'  // Limite la taille des données entrantes
+    type: 'application/json', 
+    limit: '1mb'
 }));
 
 app.use(
