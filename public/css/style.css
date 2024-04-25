@@ -132,3 +132,30 @@ form input[type="submit"]{
 }
 
 
+  
+.hide-incarnation {
+    display: none; /* Rend tout le contenu transparent */
+}
+
+#ia {
+    display: inline-block;
+    font-weight: bold;
+  }
+  
+.move-to-top-right {
+    position: absolute;
+    top: 30vh;
+    right: 35vw;
+    animation: moveToTopRight 2s forwards;
+}
+
+@keyframes moveToTopRight {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(10vw, -20vh); /* Proche du coin supérieur droit */
+        font-size: 3em;
+    }
+}
+

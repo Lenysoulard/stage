@@ -41,9 +41,11 @@ app.use(dilemmeContextualiseRoute);
 app.use(dilemmeDefautRoute);
 app.use(contexteRoute);
 
+
+
 const start = () => {
     try {
-        app.listen(process.env.PORT, () => {
+        app.listen(process.env.PORT,  () => {
             console.log(`Server is running on port ${process.env.PORT}`);
         });
     } catch (err) {

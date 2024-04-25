@@ -2,9 +2,9 @@ const btn_suivant = document.getElementById('btn-suivant');
 const choixtab = [];
 let listIdContexteAlreadySeen = [];
 const idDilemmeDefautDejaVu = [];
-let count = 1;
+let count = 0;
 btn_suivant.addEventListener('click', function() {
-    if (count < 12 && AnChoiceIsChecked()) {
+    if (count < 12 && AnChoiceIsChecked() && count > 0) {
         const idDilemme = document.getElementById('dilemme').dataset.idDefaut;
         if (!idDilemmeDefautDejaVu.includes(idDilemme)) {
             idDilemmeDefautDejaVu.push(idDilemme);
@@ -28,6 +28,10 @@ btn_suivant.addEventListener('click', function() {
             showContexte(idDilemme, count);
         }
         count++;
+    }
+    else if (count == 0) {
+        moveIA();
+        document.getElementById('dilemme').classList.remove('collapse');
     }
     else if (count == 12) {
         pushChoixTab();
@@ -197,4 +201,16 @@ async function fetchReponse(id_personne) {
     }
 }
 
+function moveIA() {
+    const iaElement = document.getElementById('ia');
+    const content = document.getElementById('incarnation');
+    const dilemmeElement = document.getElementById('dilemme');
 
+    // Déplace l'IA
+    dilemmeElement.appendChild(iaElement);
+  
+    // Ajoute les classes pour déplacer et cacher
+    iaElement.classList.add('move-to-top-right');
+    content.classList.add('hide-incarnation');
+
+}
