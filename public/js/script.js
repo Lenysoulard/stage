@@ -3,46 +3,93 @@ const choixtab = [];
 let listIdContexteAlreadySeen = [];
 const idDilemmeDefautDejaVu = [];
 let count = 0;
+const countMax = 12;
+let incarnationMiddle = 0;
+
+if (btn_suivant)
 btn_suivant.addEventListener('click', function() {
-    if (count < 12 && AnChoiceIsChecked() && count > 0) {
-        const idDilemme = document.getElementById('dilemme').dataset.idDefaut;
-        if (!idDilemmeDefautDejaVu.includes(idDilemme)) {
-            idDilemmeDefautDejaVu.push(idDilemme);
-        }
-        pushChoixTab();
+    if (count == countMax/2 && incarnationMiddle == 0){
+        if (AnChoiceIsChecked()) {
+            pushChoixTab();
+            const incarnation = document.getElementById('incarnation');
+            const dilemmeElement = document.getElementById('dilemme');
+            const iaElement = document.getElementById('ia');
+            const pElement = incarnation.lastElementChild;
+            iaElement.remove();
+            const Humain = document.createElement('span');
+            Humain.textContent = "Humain";
+            Humain.id='ia';
+            pElement.textContent = '';
+            pElement.appendChild(document.createTextNode("Vous allez maintenant répondre aux situations en tant qu'un ")); // Ajoute le texte avant le span
+            pElement.appendChild(Humain); // Ajoute le span au paragraphe
+            pElement.appendChild(document.createTextNode(" qui serait selon vous juste. C'est à dire que vous allez devoir répondre en fonction de ce que vous pensez qu'un humain juste selon vous devrait répondre")); // Ajoute un point après le span
+            dilemmeElement.classList.add('collapse');
+            incarnation.classList.remove('hide-incarnation');
 
-        // Uncheck all choices
-        document.getElementById('choix1').checked = false;
-        document.getElementById('choix2').checked = false;
-
-        // fetch new default dilemme
-        if (count%3==0) {
-            const divDilemme = document.getElementById('contexte');
-            if (divDilemme && !divDilemme.closest('template')) {
-                divDilemme.remove();
-            }
-            showNewDilemme();
+            // Uncheck all choices
+            document.getElementById('choix1').checked = false;
+            document.getElementById('choix2').checked = false;
+            
+            incarnationMiddle = 1;
+        } else {
+            alert('Veuillez choisir un choix avant de continuer');
         }
-        // fetch new contexte
-        else{
-            showContexte(idDilemme, count);
-        }
-        count++;
     }
-    else if (count == 0) {
+    else if (count == 0 || incarnationMiddle == 1) {
         moveIA();
         document.getElementById('dilemme').classList.remove('collapse');
+        if (incarnationMiddle == 1) {
+            incarnationMiddle = 2;
+            DilemmesHandler();
+        } else{
+            count++;
+        }
     }
-    else if (count == 12) {
+    else if (count < countMax  && count > 0) {
+        if (AnChoiceIsChecked()) {
+            DilemmesHandler();
+        } else {
+            alert('Veuillez choisir un choix avant de continuer');
+        }
+    }
+    else if (count == countMax) {
         pushChoixTab();
         document.getElementById('dilemme').remove();
         document.getElementById('form').classList.remove('collapse');
         btn_suivant.remove();
     }
-    else{
-        alert('Veuillez choisir un choix avant de continuer');
+    else {
+        
     }
+    
 });
+
+function DilemmesHandler() {
+    const idDilemme = document.getElementById('dilemme').dataset.idDefaut;
+    if (!idDilemmeDefautDejaVu.includes(idDilemme)) {
+        idDilemmeDefautDejaVu.push(idDilemme);
+    }
+    pushChoixTab();
+
+    // Uncheck all choices
+    document.getElementById('choix1').checked = false;
+    document.getElementById('choix2').checked = false;
+
+    // fetch new default dilemme
+    if (count % 3 == 0) {
+        const divDilemme = document.getElementById('contexte');
+        if (divDilemme && !divDilemme.closest('template')) {
+            divDilemme.remove();
+        }
+        showNewDilemme();
+    }
+
+    // fetch new contexte
+    else {
+        showContexte(idDilemme, count);
+    }
+    count++;
+}
 
 function pushChoixTab() {
     const id_dilemme_defaut = document.getElementById('dilemme').dataset.idDefaut;
@@ -144,29 +191,25 @@ async function showContexte(id, count) {
     }
 }
 
-
+if (document.getElementById('form'))
 document.getElementById('form').querySelector('form').addEventListener('submit', function(event) {
     event.preventDefault(); 
 
     const age = document.getElementById('age').value;
     const sexe = document.getElementById('sexe').value;
     const ville = document.getElementById('ville').value;
-    const code_postal = document.getElementById('code_postal').value;
     const region = document.getElementById('region').value;
     const pays = document.getElementById('pays').value;
     const education = document.getElementById('education').value;
     const occupation = document.getElementById('occupation').value;
     const commentaire = document.getElementById('commentaire').value;
     
-    
-
-   
     fetch('/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({age, sexe, ville, code_postal, region, pays, education, occupation, commentaire}),
+        body: JSON.stringify({age, sexe, ville, region, pays, education, occupation, commentaire}),
     })
     .then(response => response.json())
     .then(data => {
@@ -187,6 +230,7 @@ async function fetchReponse(id_personne) {
     try {
         
         const dilemmes = choixtab;
+        console.log(dilemmes);
         const response = await fetch('/reponse', {
             method: 'POST',
             headers: {
@@ -207,7 +251,7 @@ function moveIA() {
     const dilemmeElement = document.getElementById('dilemme');
 
     // Déplace l'IA
-    dilemmeElement.appendChild(iaElement);
+    dilemmeElement.firstElementChild.appendChild(iaElement);
   
     // Ajoute les classes pour déplacer et cacher
     iaElement.classList.add('move-to-top-right');

@@ -33,6 +33,16 @@ header{
     background-color: #363a3d;
 }
 
+
+ul.nav{
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+}
+
+ul.nav > div{
+    grid-column: 2;
+}
+
 #text-presentation{
     text-align: justify;
     margin: 7em 0 3em 4em;
@@ -144,18 +154,80 @@ form input[type="submit"]{
   
 .move-to-top-right {
     position: absolute;
-    top: 30vh;
-    right: 35vw;
-    animation: moveToTopRight 2s forwards;
+    animation: moveToTopRight 1s forwards;
 }
 
 @keyframes moveToTopRight {
     0% {
-        transform: translate(0, 0);
+        transform: translate(20vw, 5vh);
     }
     100% {
-        transform: translate(10vw, -20vh); /* Proche du coin supérieur droit */
-        font-size: 3em;
+        transform: translate(30vw,0); /* Proche du coin supérieur droit */
     }
 }
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 210px;
+    height: 45px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 50%;
+    background-color: #008fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 30px;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(105px);
+  }
+
+  /* Style the switch button that is used to turn the style off and on */
+  .switch span {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: black;
+    border-radius: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .switch span.off {
+    left: 17%;
+  }
+
+  .switch span.on {
+    right: 18%;
+  }
 
