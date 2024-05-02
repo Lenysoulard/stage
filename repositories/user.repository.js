@@ -3,12 +3,11 @@ import pool from '../config/db.js';
 export const createUser = async (user) => {
   console.log(user);
   try {
-    const {rows, fields} = await pool.query('INSERT INTO infospersonne (age, sexe, ville, code_postal, region, pays, education, occupation, commentaire) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
+    const {rows, fields} = await pool.query('INSERT INTO infospersonne (age, sexe, ville, region, pays, education, occupation, commentaire) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
         [
           user.age,
           user.sexe,
           user.ville,
-          user.code_postal,
           user.region,
           user.pays,
           user.education,
