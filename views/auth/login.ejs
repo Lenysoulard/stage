@@ -1,0 +1,25 @@
+<%- include('../shared/header.ejs') %>
+
+<% if (locals.error){ %>
+    <div class="alert alert-danger w-50 mx-auto mt-3">
+        <p><%= error %></p>
+    </div>
+<% } %>
+
+<div class="container mt-5">
+    <h1 class="text-center">Se connecter</h1>
+    <form action="/login" method="post" class="w-50 mx-auto">
+        <div class="mb-3">
+            <label for="login" class="form-label">Identifiant</label>
+            <input type="text" class="form-control" id="login" name="login" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary mx-auto">Se connecter</button>
+    </form>
+    
+</div>
+
+<%- include('../shared/footer.ejs') %>
