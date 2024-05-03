@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import globalRoute from "./routes/global.route.js";
@@ -9,8 +8,10 @@ import dilemmeDefautRoute from "./routes/dilemme_defaut.route.js";
 import contexteRoute from "./routes/contexte.route.js";
 import authRoute from "./routes/auth.route.js";
 import statistiqueRoute from "./routes/statistique.route.js";
+import modificationRoute from "./routes/modification.route.js";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { query, gpt4allTest } from "./controllers/ai.controller.js";
 import session from "express-session";
 
 const app = express();
@@ -31,7 +32,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24* 7,
         secure: false
     },
 }));
@@ -63,6 +63,16 @@ app.use(dilemmeDefautRoute);
 app.use(contexteRoute);
 app.use(authRoute);
 app.use(statistiqueRoute);
+app.use(modificationRoute);
+app.post("/query", async (req, res) => {
+    const data = req.body.inputs;
+    const result = await gpt4allTest();
+    res.json(result);
+});
+
+app.use((req, res) => {
+    res.status(404).redirect("/404");
+});
 
 
 const start = () => {
