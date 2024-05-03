@@ -1,7 +1,7 @@
 <%- include('../shared/header.ejs') %>
 
 <div class="container mt-5">
-    <h1 class="text-center">Statistique</h1>
+    <h1 class="text-center">Statistiques</h1>
     <div class="d-flex justify-content-center">
         <div class="card w-50 mt-5">
             <div class="card-body">
@@ -12,25 +12,19 @@
     </div>
 </div>
 <div class="container mt-5">
-    <h1 class="text-center">Exporter les données</h1>
+    
     <div class="d-flex justify-content-center">
-        <form action="/reponse/export" method="get" class="w-50 mt-5">
-            <div class="mb-3">
-                <label for="format" class="form-label">Format</label>
-                <select class="form-select" id="format" name="format">
-                    <option value="csv">CSV</option>
-                    <option value="json">JSON</option>
-                </select>
-            </div>
+        <form action="/reponse/export" method="get" class="w-50 mt-4">
+            <h3 class="text-start w-100 ms-3">Exporter les données</h3'>
             <div>
                 <label class="switch">
-                     <input type="checkbox" >
+                     <input type="checkbox" name="format" value="csv">
                      <span class="slider round"></span>
                      <span class="off">JSON</span>
                      <span class="on">CSV</span>
                    </label>
                </div>
-            <button type="submit" class="btn btn-primary mx-auto">Exporter</button>
+            <button type="submit" class="btn btn-primary ms-3 mb-3">Exporter</button>
         </form>
     </div>
 </div>

@@ -16,28 +16,12 @@ export const numberOfReposne = async (req, res) => {
 
 export const exportReponse = async (req, res) => {
     try {
-        // if (!req.session.authenticated) {
-        //     console.log(req.session);
-        //     return res.status(401).json({message: "Unauthorized"});
-        // }
+        if (!req.session.authenticated) {
+            return res.status(403).send();
+        }
         const requestedFormat = req.query.format;
         const {rows, fields} = await getExport();
-        if ( requestedFormat === 'json') {
-            const filePathDilemmes = await dataToJSON(rows, fields);
-            const today = new Date().toISOString().slice(0, 10);
-            const fileName = `dilemmes_${today}.json`;
-
-            // Read the file content
-            const jsonData =  await fsPromise.readFile(filePathDilemmes, {encoding: 'utf-8'});
-
-            // Send the file as a response
-            res.setHeader('Content-Type', 'application/json');
-            res.attachment(fileName);
-            res.send(jsonData); 
-            
-            // Delete the file after sending it
-            await fsPromise.unlink(filePathDilemmes);
-        }else if (requestedFormat === 'csv') {
+        if (requestedFormat === 'csv') {
             const filePathDilemmes = await dataToCSVV2(rows, fields);
             const today = new Date().toISOString().slice(0, 10);
             const fileName = `dilemmes_${today}.zip`;
@@ -55,8 +39,23 @@ export const exportReponse = async (req, res) => {
                 res.send(csvData);
             });
             fsPromise.unlink(filePathDilemmes);
+            fsPromise.unlink('download/dilemmes.csv');
+            fsPromise.unlink('download/infospersonne.csv');
         } else {
-            return res.status(400).json({message: "This formate is not supported"});
+                const filePathDilemmes = await dataToJSON(rows, fields);
+                const today = new Date().toISOString().slice(0, 10);
+                const fileName = `dilemmes_${today}.json`;
+    
+                // Read the file content
+                const jsonData =  await fsPromise.readFile(filePathDilemmes, {encoding: 'utf-8'});
+    
+                // Send the file as a response
+                res.setHeader('Content-Type', 'application/json');
+                res.attachment(fileName);
+                res.send(jsonData); 
+                
+                // Delete the file after sending it
+                await fsPromise.unlink(filePathDilemmes);
         }
     } catch (err) {
         return res.status(501).json(err.message);
