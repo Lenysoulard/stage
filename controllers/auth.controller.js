@@ -11,7 +11,7 @@ export const login = async (req, res) => {
                 req.session.login = login;
             }
         }
-        res.render('index', { title: 'Accueil'});
+        res.redirect('/');
     } catch (err) {
         res.render('auth/login', { error: err.message, title: 'Se Connecter' });
     }
