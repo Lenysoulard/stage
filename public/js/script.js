@@ -5,6 +5,15 @@ const idDilemmeDefautDejaVu = [];
 let count = 0;
 const countMax = 12;
 let incarnationMiddle = 0;
+let answerTime = 0;
+const useAnswerTime = document.querySelector('main > div').dataset.time;
+
+
+function getAnswerTime() {
+    if (useAnswerTime == 'true')
+    return (Date.now() - answerTime)/1000;
+}
+
 
 if (btn_suivant)
 btn_suivant.addEventListener('click', function() {
@@ -37,6 +46,7 @@ btn_suivant.addEventListener('click', function() {
     }
     else if (count == 0 || incarnationMiddle == 1) {
         moveIA();
+        answerTime = Date.now();
         document.getElementById('dilemme').classList.remove('collapse');
         if (incarnationMiddle == 1) {
             incarnationMiddle = 2;
@@ -48,6 +58,7 @@ btn_suivant.addEventListener('click', function() {
     else if (count < countMax  && count > 0) {
         if (AnChoiceIsChecked()) {
             DilemmesHandler();
+            answerTime = Date.now();
         } else {
             alert('Veuillez choisir un choix avant de continuer');
         }
@@ -57,9 +68,6 @@ btn_suivant.addEventListener('click', function() {
         document.getElementById('dilemme').remove();
         document.getElementById('form').classList.remove('collapse');
         btn_suivant.remove();
-    }
-    else {
-        
     }
     
 });
@@ -96,10 +104,11 @@ function pushChoixTab() {
     const element = document.getElementById('contexte');
     const id_dilemme_contextualise = element && !element.closest('template') ? element.dataset.idContexte : null;
     const Listchoix = document.getElementsByName('choix');
+    const time = getAnswerTime();
     Listchoix.forEach(choixElement => {
         if (choixElement.checked) {
             const choix = choixElement.previousElementSibling.textContent;
-            choixtab.push({id_dilemme_defaut, id_dilemme_contextualise, choix});
+            choixtab.push({time, id_dilemme_defaut, id_dilemme_contextualise, choix});
         }
     });
 }
@@ -230,7 +239,6 @@ async function fetchReponse(id_personne) {
     try {
         
         const dilemmes = choixtab;
-        console.log(dilemmes);
         const response = await fetch('/reponse', {
             method: 'POST',
             headers: {

@@ -186,7 +186,7 @@ form input[type="submit"]{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #FFF;
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -199,7 +199,7 @@ form input[type="submit"]{
     background-color: #008fff;
     -webkit-transition: .4s;
     transition: .4s;
-    border-radius: 30px;
+    border-radius: 6px;
   }
 
   input:checked + .slider:before {
@@ -216,7 +216,8 @@ form input[type="submit"]{
     transform: translateY(-50%);
     font-size: 14px;
     color: black;
-    border-radius: 30px;
+    border-radius: 6px;
+    font-weight: bold;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

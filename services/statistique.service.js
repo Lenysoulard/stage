@@ -6,6 +6,7 @@ import ExportReponse from '../models/export_reponse.model.js';
 import { writeFile } from 'fs/promises';
 import archiver from 'archiver';
 import fs from 'fs';
+import { time } from 'console';
 
 
 export const getNumberOfReponse = async () => {
@@ -84,7 +85,7 @@ export const dataToCSVV2 =  async (rows, fields) => {
     await writeFile(filePath, csvContent)
         .catch(err => console.error('Error writing CSV file:', err));
 
-    const headersDilemmes = ['id','choix', 'id_dilemme_defaut', 'id_dilemme_contextualise'];
+    const headersDilemmes = ['id','choix', 'dilemme_defaut', 'contexte(s)', 'temps_reponse'];
     
     const recordsDilemmes = [];
     let count = 0;
@@ -120,7 +121,7 @@ export const dataToCSVV2 =  async (rows, fields) => {
                 const dilemmeContextualise = await getDilemmeContextualiseById(id);
                 contexte.push((await getContexteById(dilemmeContextualise[0].id_contexte))[0].description);
             }
-            dilemmeData.push(`${idpersonnes[count]};${reponseDilemme.choix};${dilemmeDefaut[0].description};${contexte.join(', ')}`);
+            dilemmeData.push(`${idpersonnes[count]};${reponseDilemme.choix};${dilemmeDefaut[0].description};${contexte.join(', ')};${reponseDilemme.time ?? 'Pas de temps de réponse'}`);
             i = reponseDilemme.id_dilemme_defaut;
         }
         recordsDilemmes.push(dilemmeData.join('\n') + '\n');
@@ -209,7 +210,8 @@ export const dataToJSON = async (rows, fields) => {
             jsonData.push({
                 choix: reponseDilemme.choix,
                 descriptionDefaut: dilemmeDefaut[0].description,
-                contexte: contexte.join(', ')
+                contexte: contexte.join(', '),
+                time: reponseDilemme.time ?? 'Pas de temps de réponse'
             });
             i = reponseDilemme.id_dilemme_defaut;
         }
