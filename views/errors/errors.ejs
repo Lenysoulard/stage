@@ -1,0 +1,10 @@
+<%- include('../shared/header.ejs', {title: title}) %>
+
+        <div class="container d-flex flex-column w-100" style="margin-top: 15rem">
+            <h1 class="text-center mx-auto">Erreur <%= title %></h1>
+            <p class="text-center mx-auto"><%= message %></p>
+            <a href="/" class="btn btn-primary mx-auto" style="width: 150px;">Retour à l'accueil</a>
+        </div>
+
+<%- include('../shared/footer.ejs') %>
+
