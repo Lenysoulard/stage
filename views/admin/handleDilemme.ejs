@@ -1,15 +1,15 @@
 <%- include('../shared/header.ejs') %>
 
-
 <div class="container mt-5">
     <h1 class="text-center mt-5">Gestion des dilemmes</h1>
     <div class="d-flex justify-content-center">
-        <form class="w-50 mt-4" style="padding: 2em 2em 0 ;">
+        <form id="form-modification" method="get" class="w-50 mt-4" style="padding: 2em 2em 0 ;">
             <div class="form-check form-switch">
                 <input
                     class="form-check-input"
                     type="checkbox"
                     id="SwitchCheckTime"
+                    name="temps_reponse"
                     <%= modification.temps_reponse == true ? 'checked' : '' %>
                 />
                 <label class="form-check-label" for="SwitchCheckTime">Utiliser le temps de réponse</label>
@@ -19,9 +19,20 @@
                     class="form-check-input"
                     type="checkbox"
                     id="SwitchCheckColor"
+                    name="bouton_couleur"
                     <%= modification.bouton_couleur == true ? 'checked' : '' %>
                 />
                 <label class="form-check-label" for="SwitchCheckColor">Utiliser les boutons de couleur (vert et rouge)</label>
+            </div>
+            <div class="form-check form-switch">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="SwitchCheckIA"
+                    name="reponse_IA"
+                    <%= modification.reponse_ia == true ? 'checked' : '' %>
+                />
+                <label class="form-check-label" for="SwitchCheckIA">Utiliser les réponses de l'IA</label>
             </div>
             <div class="d-flex justify-content-center my-4">
                 <button type="submit" class="btn btn-primary">Sauvgarder</button>

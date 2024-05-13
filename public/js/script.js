@@ -7,12 +7,33 @@ const countMax = 12;
 let incarnationMiddle = 0;
 let answerTime = 0;
 const useAnswerTime = document.querySelector('main > div').dataset.time;
-
+const useBtnCouleur = document.querySelector('main > div').dataset.btnCouleur;
 
 function getAnswerTime() {
     if (useAnswerTime == 'true')
     return (Date.now() - answerTime)/1000;
 }
+
+function changeRadioColor() {
+    if (useBtnCouleur == 'true') {
+        const random = Math.random();
+        const choix1 = document.getElementById('choix1');
+        const choix2 = document.getElementById('choix2');
+        if (random < 0.5) {
+            choix1.classList.remove('custom-radio-red');
+            choix2.classList.remove('custom-radio-green');
+            choix1.classList.add('custom-radio-green');
+            choix2.classList.add('custom-radio-red');
+        } else {
+            choix1.classList.remove('custom-radio-green');
+            choix2.classList.remove('custom-radio-red');
+            choix1.classList.add('custom-radio-red');
+            choix2.classList.add('custom-radio-green');
+        }
+    }
+}
+
+
 
 
 if (btn_suivant)
@@ -47,6 +68,7 @@ btn_suivant.addEventListener('click', function() {
     else if (count == 0 || incarnationMiddle == 1) {
         moveIA();
         answerTime = Date.now();
+        changeRadioColor();
         document.getElementById('dilemme').classList.remove('collapse');
         if (incarnationMiddle == 1) {
             incarnationMiddle = 2;
@@ -105,6 +127,7 @@ function pushChoixTab() {
     const id_dilemme_contextualise = element && !element.closest('template') ? element.dataset.idContexte : null;
     const Listchoix = document.getElementsByName('choix');
     const time = getAnswerTime();
+    changeRadioColor();
     Listchoix.forEach(choixElement => {
         if (choixElement.checked) {
             const choix = choixElement.previousElementSibling.textContent;
