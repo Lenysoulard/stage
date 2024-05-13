@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/stats.js" defer></script>
     <script src="/js/script.js" defer></script>
+    <script src="/js/modification.js" defer></script>
+    <script src="../../public/js/bootstrap.min.js" defer></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body class="bg-dark text-light">
     <header class="w-100">
@@ -22,7 +25,10 @@
                     </li>
                     <% if (locals.login){ %>
                         <li class="nav-item nav-items-border-hover">
-                            <a class="nav-link text-light" href="/statistique">Statistique</a>
+                            <a class="nav-link text-light" href="/admin/statistique">Statistique</a>
+                        </li>
+                        <li class="nav-item nav-items-border-hover">
+                            <a class="nav-link text-light" href="/admin/modification">Gerer les dilemmes</a>
                         </li>
                     <% } %>
                 </div>

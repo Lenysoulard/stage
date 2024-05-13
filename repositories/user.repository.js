@@ -1,7 +1,6 @@
 import pool from '../config/db.js';
 
 export const createUser = async (user) => {
-  console.log(user);
   try {
     const {rows, fields} = await pool.query('INSERT INTO infospersonne (age, sexe, ville, region, pays, education, occupation, commentaire) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
         [
@@ -16,7 +15,6 @@ export const createUser = async (user) => {
         ]);
     return rows[0].id;
   } catch (err) {
-    console.error(err);
     throw new Error(err);
   }
 }
