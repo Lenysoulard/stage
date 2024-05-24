@@ -1,4 +1,3 @@
-import reponseModel from "../models/reponse.model.js";
 import { createReponse as create} from "../repositories/reponse.repository.js";
 
 export const createReponse = async (id_personne, dilemmes) => {

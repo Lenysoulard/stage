@@ -2,7 +2,6 @@ import { verifyInformation, createAuth } from "../services/auth.service.js";
 
 export const login = async (req, res) => {
     try {
-        console.log(req.sessionID);
         const { login, password } = req.body;
         if (login && password){
             if (!req.session.authenticated){
@@ -10,6 +9,8 @@ export const login = async (req, res) => {
                 req.session.authenticated = true;
                 req.session.login = login;
             }
+        } else {
+            throw new Error("Veuillez remplir tous les champs pour vous connecter.");
         }
         res.redirect('/');
     } catch (err) {

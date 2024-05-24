@@ -1,4 +1,5 @@
-const number = document.querySelector('h5 + p');
+const number = document.querySelector('h4 + p:not(#div-home p)');
+
 if (number){
 fetch('/reponse/number')
     .then(response => response.json())
@@ -35,7 +36,7 @@ fetch('/reponse/number')
             [ 'Sexe','Nombre de personnes'],
              ...transformedValue
         ];
-        piechart('piechart', values );
+        piechart('piechart', values, 'Répartion du sexe des personnes ayant répondu aux dilemmes', 80);
     }).catch(err => {
         console.error(err);
     });
@@ -55,7 +56,7 @@ fetch('/reponse/number')
             ['80-90', data[7]],
             ['90+', data[8]]
         ];
-        piechart('piechartage', values);
+        piechart('piechartage', values, 'Répartition des âges des personnes ayant répondu aux dilemmes', 0);
     }).catch(err => {
         console.error(err);
     });
@@ -65,25 +66,29 @@ fetch('/reponse/number')
     
 }
 
-function piechart(divId, values){
+function piechart(divId, values, title, left){
     google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(() => drawChart(divId, values));
+    google.charts.setOnLoadCallback(() => drawChart(divId, values, title, left));
 
     
 }
 
-function drawChart(divId, values) {
+function drawChart(divId, values, title, left) {
         
     const data = google.visualization.arrayToDataTable(values);
 
     const options = {
-        'title':'Répartion du sexe des personnes ayant répondu aux dilemmes',
-        'titleTextStyle': {color: 'white', fontSize: 15, bold: true, italic: false},
-        'legend': {position: 'right', textStyle: {color: 'white', fontSize: 12}},
-        'width':550,
-        'height':400,
+        'title': title,
+        'titleTextStyle': {color: 'black', fontSize: 14, bold: true, italic: false},
+        'legend': {position: 'right', textStyle: {color: 'black', fontSize: 12}},
+        'width':390,
+        'height':300,
         'backgroundColor': 'transparent',
         'pieHole': 0.5,
+        'pieSliceTextStyle': {
+            color: 'black',
+          },
+        'chartArea':{left: left,top: 60,width:'100%',height:'50%'}
     };
 
     const chart = new google.visualization.PieChart(document.getElementById(divId));

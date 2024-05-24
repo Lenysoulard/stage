@@ -1,45 +1,123 @@
 <%- include('../shared/header.ejs') %>
+    <div id="modif" class="d-flex">
+        <div id="sidebar-modif">
+            <div class="d-flex justify-content-end">
+                <svg width="25" height="25" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                    <path d="M13.125 8.74996L4.375 17.5M4.375 17.5L13.125 26.25M4.375 17.5H24.7917M30.625 27.7083V7.29163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                    
+            </div>
+            <div class="collapse justify-content-end" >
+                <svg width="25" height="25" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.375 7.29163V27.7083M30.625 17.5H10.2083M30.625 17.5L21.875 26.25M30.625 17.5L21.875 8.74996" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>  
+            </div>
+            <p style="font-size: 1.3rem;" class="mt-3">Modifier les paramètres</p>
+            <div class="mt-4">
+                <form id="form-modification" method="get">
+                    <div class="form-check form-switch my-3">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="SwitchCheckTime"
+                            name="temps_reponse"
+                            <%= modification.temps_reponse == true ? 'checked' : '' %>
+                        />
+                        <label class="form-check-label" for="SwitchCheckTime">Temps de réponse</label>
+                    </div>
+                    <div class="form-check form-switch my-3">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="SwitchCheckColor"
+                            name="bouton_couleur"
+                            <%= modification.bouton_couleur == true ? 'checked' : '' %>
+                        />
+                        <label class="form-check-label" for="SwitchCheckColor">Boutons de couleur (vert et rouge)</label>
+                    </div>
+                    <div class="form-check form-switch my-3">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="SwitchCheckIA"
+                            name="reponse_IA"
+                            <%= modification.reponse_ia == true ? 'checked' : '' %>
+                        />
+                        <label class="form-check-label" for="SwitchCheckIA">Réponses de l'IA</label>
+                    </div>
+                    <div class="d-flex justify-content-center my-4">
+                        <button type="submit" id="btn-modif">Sauvgarder</button>
+                    </div>
+                </form>
+            </div>        
+        </div>
+        <div id="main-modif" >
+            <div class="d-flex justify-content-between align-items-center w-75 mt-3">
+                <h2 class="w-50">Les dilemmes :</h2>
+                <button class="add d-flex">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABKklEQVR4nO2WS4rCQBBAc4lZ+Bs8h58DCDp4Df9nmaWoG5fudeYmRjyFn53KGxp6IKipVHcMuvBBIIRUPapS6e4gePNqAJ/AAPgFQuBor9A+6wOlRwoLwBg4k8wFWADltNI2cMCdPfDlKx3ZCnwxsUOfSi8ppFG5rnKg6Nleqe15jXimTFgBasp3J5pfRjO9RGI0nE0nJfFQmchVbOhJ4h+yEy8l8TZDcSiJzQTeoxIbdJsjbuD2PuKqg7juI95o+xaJ0bJ+yeHqZyjuSOJSRgvISVxAbKKpMllVGKRrxqI0svHHTbcPOyCXKLbyhrblim2xpZJerdtpDwIDJ+k/ZhP3bLtpbzNIA/ABfNvJ1FQ5V39Th5NJD1iZVcieUg72fgl0E3+ZN8ET+ANXONEYLKsKigAAAABJRU5ErkJggg==">
+                    Ajouter
+                </button>
+            </div>
+            <% if(locals.dilemmes)for(let dilemme of dilemmes){ %>
 
-<div class="container mt-5">
-    <h1 class="text-center mt-5">Gestion des dilemmes</h1>
-    <div class="d-flex justify-content-center">
-        <form id="form-modification" method="get" class="w-50 mt-4" style="padding: 2em 2em 0 ;">
-            <div class="form-check form-switch">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="SwitchCheckTime"
-                    name="temps_reponse"
-                    <%= modification.temps_reponse == true ? 'checked' : '' %>
-                />
-                <label class="form-check-label" for="SwitchCheckTime">Utiliser le temps de réponse</label>
-            </div>
-            <div class="form-check form-switch">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="SwitchCheckColor"
-                    name="bouton_couleur"
-                    <%= modification.bouton_couleur == true ? 'checked' : '' %>
-                />
-                <label class="form-check-label" for="SwitchCheckColor">Utiliser les boutons de couleur (vert et rouge)</label>
-            </div>
-            <div class="form-check form-switch">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="SwitchCheckIA"
-                    name="reponse_IA"
-                    <%= modification.reponse_ia == true ? 'checked' : '' %>
-                />
-                <label class="form-check-label" for="SwitchCheckIA">Utiliser les réponses de l'IA</label>
-            </div>
-            <div class="d-flex justify-content-center my-4">
-                <button type="submit" class="btn btn-primary">Sauvgarder</button>
-            </div>
-        </form>
-    </div>        
-</div>
+                <div class="d-flex justify-content-between align-items-center dilemme-card" data-id="<%= dilemme.id %>">
+                    <div class="collapse flex-column align-items-end">
+                        <textarea value="<%= dilemme.description %>" class="collapse "><%= dilemme.description %></textarea>
+                        <button  class="collapse ">Valider</button>
+                    </div>
+                    <p><%= dilemme.description %></p>
+                    <div>
+                        <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg" class="edit">
+                            <path d="M25.0971 8.47413C25.5579 8.00468 25.5579 7.22227 25.0971 6.7769L22.3326 3.96024C21.8955 3.49079 21.1276 3.49079 20.6668 3.96024L18.493 6.16301L22.9233 10.6769M4.17432 20.7639V25.2778H8.60461L21.671 11.9528L17.2407 7.43894L4.17432 20.7639Z" fill="#2D2E83"/>
+                        </svg>
+                        <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg" class="delete">
+                            <path d="M22.5193 4.81479H18.3843L17.2029 3.61108H11.2959L10.1144 4.81479H5.97949V7.22219H22.5193M7.16091 22.8703C7.16091 23.5088 7.40985 24.1212 7.85296 24.5726C8.29608 25.0241 8.89707 25.2777 9.52373 25.2777H18.975C19.6017 25.2777 20.2027 25.0241 20.6458 24.5726C21.0889 24.1212 21.3379 23.5088 21.3379 22.8703V8.4259H7.16091V22.8703Z" fill="#2D2E83"/>
+                        </svg> 
+                    </div> 
+                </div>
+            <% } %>
+        </div>
+    </div>
 
-
+    <template id="template-delete-confirm">
+        <div class="black">
+            <div class="d-flex flex-column align-items-center">
+                <p>Êtes-vous sûr de vouloir supprimer ce dilemme ?</p>
+                <div class="d-flex justify-content-around w-75">
+                    <button class="btn-no">Annuler</button>
+                    <button class="btn-yes">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="template-add-form">
+        <div class="black">
+            <div class="d-flex flex-column align-items-start " style="padding: 20px 5px; height: max(250px, 50%); width: 40%;">
+                <h4 class="ms-4">Ajouter un dilemme</h4>
+                <label for="desc" class="ms-4 mb-1">Description :</label>
+                <textarea id="desc" class=" ms-4" style="width: 90%; height: 60%;"></textarea>
+                <div class="d-flex justify-content-start gap-3 w-100 ms-4">
+                    <button class="btn-yes">Confirmer</button>
+                    <button class="btn-no">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="template-dilemme">
+        <div class="d-flex justify-content-between align-items-center dilemme-card" data-id="">
+            <div class="collapse flex-column align-items-end">
+                <textarea value="" class="collapse "></textarea>
+                <button class="collapse ">Valider</button>
+            </div>
+            <p class="description"></p>
+            <div>
+                <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg" class="edit">
+                    <path d="M25.0971 8.47413C25.5579 8.00468 25.5579 7.22227 25.0971 6.7769L22.3326 3.96024C21.8955 3.49079 21.1276 3.49079 20.6668 3.96024L18.493 6.16301L22.9233 10.6769M4.17432 20.7639V25.2778H8.60461L21.671 11.9528L17.2407 7.43894L4.17432 20.7639Z" fill="#2D2E83"/>
+                </svg>
+                <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg" class="delete">
+                    <path d="M22.5193 4.81479H18.3843L17.2029 3.61108H11.2959L10.1144 4.81479H5.97949V7.22219H22.5193M7.16091 22.8703C7.16091 23.5088 7.40985 24.1212 7.85296 24.5726C8.29608 25.0241 8.89707 25.2777 9.52373 25.2777H18.975C19.6017 25.2777 20.2027 25.0241 20.6458 24.5726C21.0889 24.1212 21.3379 23.5088 21.3379 22.8703V8.4259H7.16091V22.8703Z" fill="#2D2E83"/>
+                </svg> 
+            </div> 
+        </div>
+    </template>
 <%- include('../shared/footer.ejs') %>

@@ -3,17 +3,18 @@ import { getAuthById , createAuth as create} from "../repositories/auth.reposito
 import { compare, hash} from "bcrypt";
 
 export const verifyInformation = async (login, password) => {
+    
     const auth = await getAuthById(login);
-    if (auth) {
+    if (auth && auth.length > 0) {
         const authObject = new Auth(auth[0].login, auth[0].password);
         const match = await compare(password, authObject.password);
         if (match) {
             return auth;
         } else {
-            throw new Error("Votre identifiant ou votre mot de passe est incorrect.");
+            throw new Error("Certaines de vos informations sont incorrectes.");
         }
     }else{
-        throw new Error("Votre identifiant ou votre mot de passe est incorrect.");
+        throw new Error("Certaines de vos informations sont incorrectes.");
     }
     
 }

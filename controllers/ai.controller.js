@@ -1,4 +1,4 @@
-import { LLModel, createCompletion, DEFAULT_DIRECTORY, DEFAULT_LIBRARIES_DIRECTORY, loadModel } from '../node_modules/gpt4all/src/gpt4all.js';
+// import { LLModel, createCompletion, DEFAULT_DIRECTORY, DEFAULT_LIBRARIES_DIRECTORY, loadModel } from '../node_modules/gpt4all/src/gpt4all.js';
 
 
 export async function query(data) {

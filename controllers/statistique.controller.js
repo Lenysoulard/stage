@@ -38,9 +38,9 @@ export const exportReponse = async (req, res) => {
                 // Send the archive as a response
                 res.send(csvData);
             });
-            fsPromise.unlink(filePathDilemmes);
-            fsPromise.unlink('download/dilemmes.csv');
-            fsPromise.unlink('download/infospersonne.csv');
+            // fsPromise.unlink(filePathDilemmes);
+            // fsPromise.unlink('download/dilemmes.csv');
+            // fsPromise.unlink('download/infospersonne.csv');
         } else {
                 const filePathDilemmes = await dataToJSON(rows, fields);
                 const today = new Date().toISOString().slice(0, 10);
@@ -54,8 +54,7 @@ export const exportReponse = async (req, res) => {
                 res.attachment(fileName);
                 res.send(jsonData); 
                 
-                // Delete the file after sending it
-                await fsPromise.unlink(filePathDilemmes);
+
         }
     } catch (err) {
         return res.status(501).json(err.message);

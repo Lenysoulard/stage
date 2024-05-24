@@ -1,41 +1,32 @@
 <%- include('../shared/header.ejs') %>
 
-<div class="container mt-5">
-    <h1 class="text-center">Statistiques</h1>
-    <div class="d-flex justify-content-center">
-        <div class="card w-50 mt-5">
-            <div class="card-body">
-                <h5 class="card-title">Nombre de participants</h5>
-                <p class="card-text">Il y a actuellement 0 participants</p>
+<div class="mt-5 mx-auto" id="statistique">
+    <div class="w-100 pt-3 ps-3">
+        <h4 class="">Nombre de participants</h4>
+        <p class="ms-1">Il y a actuellement 0 participants</p>
+    </div>
+    <div class="w-100 pt-3 ps-3">
+        <h4 class="">Exporter les données</h4>
+        <form action="/reponse/export" method="get" class="w-50 mt-4">
+            <div class="d-flex align-items-center justify-content-around gap-5">
+                <div>
+                    <label class="switch">
+                        <input type="checkbox" name="format" value="csv">
+                        <span class="slider round"></span>
+                        <span class="off">JSON</span>
+                        <span class="on">CSV</span>
+                   </label>
+                </div>
+                <button type="submit">Exporter</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
-<table class="w-50 mx-auto">
+<table class="w-50 mx-auto mt-5">
     <tr>
         <td><div id="piechart"></div></td>
         <td><div id="piechartage"></div></td>
     </tr>
 </table>
-<div class="container mt-5">
-    
-    <div class="d-flex justify-content-center">
-        <form action="/reponse/export" method="get" class="w-50 mt-4">
-            <h3 class="text-start w-100 ms-3">Exporter les données</h3>
-            <div class="d-flex align-items-center justify-content-around">
-                <div>
-                <label class="switch">
-                     <input type="checkbox" name="format" value="csv">
-                     <span class="slider round"></span>
-                     <span class="off">JSON</span>
-                     <span class="on">CSV</span>
-                   </label>
-            </div>
-            <button type="submit" class="btn btn-primary">Exporter</button>
-            </div>
-            
-        </form>
-    </div>
-</div>
 
 <%- include('../shared/footer.ejs') %>

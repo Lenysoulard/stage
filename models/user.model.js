@@ -1,6 +1,6 @@
 export default class userModel {
 
-    constructor(id, age, sexe, ville, region, pays, education, occupation, commentaire) {
+    constructor(id, age, sexe, ville, region, pays, education, information, commentaire) {
         this.id = id;
         this.age = age;
         this.sexe = sexe;
@@ -8,7 +8,7 @@ export default class userModel {
         this.region = region;
         this.pays = pays;
         this.education = education;
-        this.occupation = occupation;
+        this.information = information;
         this.commentaire = commentaire;
     }
 }

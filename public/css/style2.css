@@ -1,0 +1,622 @@
+
+/*-------------------------------------VARIABLE-------------------------------------*/
+
+:root{
+    --text-color: #000000;
+    --text-size-nav: 17px;
+    --bg-color-primary: #718CE2;
+    --bg-color-primary-rgb: 113, 140, 226;
+    --bg-color-secondary: #2d2e83;
+    --bg-color-secondary-rgb: 45, 46, 131;
+    --bg-color-tertiary: #D9D9D9;
+      
+}
+
+
+/*-------------------------------------GENERAL-------------------------------------*/
+
+body{
+    font-size: var(--text-size-nav);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+
+/*-------------------------------------HEADER-------------------------------------*/
+
+header{
+    grid-template-columns: 1fr 2fr 1fr;
+    font-weight: 500;
+}
+
+header div:last-child{
+    justify-self: end;
+    padding: 8px 16px;
+}
+
+header img{
+    width: 160px;
+    height: 100%;
+    margin-left: 25px;
+    margin-top: 5px;
+}
+
+
+.nav-item, a.nav-link{
+    list-style: none;
+    color: var(--text-color);
+}
+
+.nav-item a{
+    padding: 8px 8px;
+}
+
+/*-------------------------------------Home page-------------------------------------*/
+
+main > #div-home{
+    background-color: rgba(var(--bg-color-primary-rgb), 0.7);
+    border-radius: 45px;
+    height: 300px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    margin-top: 15vh;
+    position: relative;
+    box-shadow: 7px 5px 20px 5px rgba(0, 0, 0, 0.10);
+    width: 60%;
+}
+
+main > #div-home > h4{
+    align-self: self-end;
+    font-weight: bold;
+}
+
+main > #div-home > p{
+    align-self: self-start;
+    width: 90%;
+}
+
+main > #div-home > img{
+    width: 150px;
+    position: absolute;
+    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.25));
+}
+
+main > #div-home > *:nth-child(3){
+    top: 60px;
+    right: -115px;
+    transform: rotate(12deg);
+}
+
+main > #div-home > *:last-child{
+    top: -74px;
+    left: -25px;
+    transform: rotate(-10deg);
+}
+
+/*-------------------------------------Login page-------------------------------------*/
+
+#div-login > div {
+    grid-template-rows: 3fr 1fr;
+    background-color: var(--bg-color-primary);
+    border-radius: 18px;
+    color: white;
+    font-weight: 500;
+    width: min(38vw, 80%);
+}
+
+#div-login > div > div{
+    margin-top: 30px;
+    width: 100%;
+}
+
+#div-login > div > div.margin-40{
+    margin-top: 40px;
+}
+
+.alert{
+    height: 40px;
+    width: fit-content;
+    padding: 7px 0;
+    background: url(https://www.paypalobjects.com/images/shared/icon_alert_sprite-2x.png) no-repeat;
+    background-position: left 12px top -391px;
+    background-size: 20px;
+    background-color: #f8d7da; 
+}
+
+.alert p {
+    margin-left: 40px;
+    margin-right: 10px;
+}
+
+#div-login > div label{
+    width: 80%;
+    margin: 0 auto;
+}
+
+#div-login > div input{
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px auto; 
+    padding: 0 10px;
+}
+
+#div-login > div input:focus{
+    outline: 2px solid var(--bg-color-secondary);
+}
+
+#div-login > div button{
+    width: 35%;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    background-color: var(--bg-color-secondary);
+    color: white;
+    font-weight: 500;
+}
+
+#div-login > div > p{
+    align-self: self-end;
+    margin: 0 20px 20px;
+    width: 90%;
+}
+
+
+
+#div-login {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    width: min(42vw, 500px);
+}
+
+
+/*-------------------------------------Participate page-------------------------------------*/
+
+div:has(> #incarnation) {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#incarnation{
+    margin-top: 10vh;
+    transition: margin-top 0.5s ease-out;
+}
+
+#incarnation > div {
+    background-color: #D9D9D9;
+    border-radius: 25px;
+    color: black;
+    font-weight: 500;
+    padding: 20px;
+    justify-content: space-around;
+}
+
+#incarnation > div > p{
+    width: 70%;
+    margin: unset;
+    height: fit-content;
+    margin: 10px 0;
+    
+}
+
+#incarnation  img{
+    width: 25%;
+    border-radius: 15px;
+    margin: 10px 0;
+}
+
+#incarnation ~ button{
+    width: 15%;
+    height: 45px;
+    border-radius: 13px;
+    border: none;
+    margin: 15px 15px 0 auto;
+    background-color: var(--bg-color-secondary);
+    color: white;
+    font-weight: 500;
+    margin-bottom: 5rem;
+}
+
+#incarnation ~ button:hover{
+    background-color: #2d2f83de;
+}
+
+#incarnation > h1{
+    transition: opacity 0.3s ease-out;
+}
+
+.hide-title{
+    
+    opacity: 0;
+}
+
+.minimize{
+    padding: 5px;
+}
+
+#dilemme{
+    background-color: rgba(var(--bg-color-primary-rgb), 0.7);
+    border-radius: 35px;
+    margin-top: 2rem;
+    font-weight: 500;
+}
+
+#container-reponse{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    
+}
+
+#container-reponse > div:last-child{
+    display: grid;
+    grid-template-columns: repeat(7, 125fr); 
+    width: 78%; 
+    align-items: center;
+    justify-items: center;
+    margin-top: 1rem;
+    background-color: rgba(var(--bg-color-secondary-rgb), 0.86);
+    border-radius: 25px;
+    height: 45px;
+    
+}
+
+#container-reponse label{
+    width: 140px;
+    text-align: center;
+}
+
+.radio-reponse{
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    
+    cursor: pointer;
+    border: 2px solid #bbb;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.radio-reponse:checked {
+    background-color: greenyellow; /* Couleur de fond quand sélectionné */
+    border-color:  greenyellow; /* Couleur de bordure quand sélectionné */
+}
+#form{
+    margin-bottom: 10vh;
+}
+
+#form form{
+    border: rgba(var(--bg-color-primary-rgb), 0.7) solid 1px;
+    border-radius: 30px;
+    width: 42vw;
+    margin: 0 auto;
+    padding-top: 2em;
+    background-color: rgba(var(--bg-color-primary-rgb), 0.7);
+}
+
+#form form > div{
+    margin: 1em;
+    justify-content: space-evenly;
+}
+#form form > div > div{
+    width: 39%;
+    display: flex;
+    flex-direction: column;
+}
+
+#form form input[type="text"], #form form textarea, #form form select, #form form input[type="number"]{
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 10px;
+    margin: auto;
+    border: #495057 solid 1px;
+}
+
+#form form textarea, #form form select:not(#sexe){
+    width: 100%;
+}
+
+#form form > div:nth-last-child(2), #form form > div:nth-last-child(4), #form form > div:nth-last-child(3){
+    width: 82%;
+    
+}
+
+#form form > div:nth-last-child(2) > div, #form form > div:nth-last-child(4) > div , #form form > div:nth-last-child(3) > div{
+    width: 100%;
+    
+}
+
+#form form input[type="submit"]{
+    background-color: var(--bg-color-secondary);
+    color: white;
+    border: none;
+    padding: 0.5em;
+    border-radius: 5px;
+    width: 20%;
+}
+
+
+#form form input[type="submit"]:hover{
+    background-color: #2d2f83de;
+}
+
+
+/*-------------------------------------Statistique page-------------------------------------*/
+
+#statistique{
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(var(--bg-color-primary-rgb), 0.7);
+    width: min(50%, 580px);
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 210px;
+    height: 55px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FFF;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 50%;
+    background-color: #008fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 6px;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(105px);
+}
+
+/* Style the switch button that is used to turn the style off and on */
+.switch span {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: black;
+    border-radius: 6px;
+    font-weight: bold;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.switch span.off {
+    left: 17%;
+}
+
+.switch span.on {
+    right: 18%;
+}
+
+
+#statistique  button{
+    width: 60%;
+    height: 40px;
+    border-radius: 13px;
+    border: none;
+    padding: 0 10px;
+    background-color: var(--bg-color-secondary);
+    color: white;
+    font-weight: 500;
+}
+
+#statistique button:hover{
+    background-color: #2d2f83de;
+}
+
+
+/*-------------------------------------Modification page-------------------------------------*/
+
+#sidebar-modif{
+    background-color: var(--bg-color-tertiary);
+    border-top-right-radius: 25px;
+    font-weight: 500;
+    margin-top: 2rem;
+    padding: 20px;
+    width: 15%;
+    height: calc(100vh - 109px);
+    transition: width 0.2s ease-out;
+}
+
+#sidebar-modif > div:first-child{
+    cursor: pointer;
+}
+
+.btn-open{
+    cursor: pointer;
+}
+
+#btn-modif{
+    background-color: var(--bg-color-secondary);
+    color: white;
+    border: none;
+    padding: 0.5em;
+    border-radius: 5px;
+    width: calc(100% + 40px);
+    margin-top: 10px;
+    
+}
+
+#btn-modif:hover{
+    background-color: #2d2f83de;
+}
+#main-modif{
+    width: 81%;
+    height: calc(100vh - 93px);
+    margin: 1rem 0 0 5rem;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    scrollbar-color: var(--bg-color-primary) var(--bg-color-tertiary);
+    scrollbar-width:auto;
+}
+
+#main-modif svg{
+    cursor: pointer;
+}
+
+#main-modif path:hover{
+    fill: #2d2f83de;
+}
+
+#main-modif > div:nth-child(2){
+    margin-top: 2rem;
+}
+
+.add{
+    background-color:  rgba(var(--bg-color-secondary-rgb), 0.85);
+    color: white;
+    border: none;
+    padding: 0.5em;
+    border-radius: 5px;
+    width: 105px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.dilemme-card{
+    background-color: rgba(var(--bg-color-primary-rgb), 0.7);
+    border-radius: 22px;
+    margin-top: 1rem;
+    font-weight: 500;
+    width: 80%;
+    padding: 0 15px;
+    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.10);
+}
+
+.dilemme-card p{
+    margin: 10px 0;
+    width: 70%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Nombre de lignes souhaité */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.dilemme-card textarea{
+    width: 100%;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.322);
+    border-radius: 15px;
+    margin: 10px 0;
+}
+
+.dilemme-card > div:first-child{
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+.dilemme-card > div:first-child button{
+    background-color: var(--bg-color-secondary);
+    color: white;
+    border: none;
+    padding: 0.5em;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.black{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.black > div {
+    background-color: var(--bg-color-primary);
+    border-radius: 15px;
+    color: black;
+    font-weight: 500;
+    padding: 30px;
+    margin-top: 10rem;
+}
+
+.black button{
+    background-color: var(--bg-color-secondary);
+    color: white;
+    border: none;
+    padding: 0.5em;
+    border-radius: 5px;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.black button:hover{
+    background-color: #2d2f83de;
+}
+
+
+.alert.success{
+    background: #46dda2;
+    color: #474242;
+    display: flex;
+}
+
+.alert.error{
+    background: #f44336;
+    color: #474242;
+}
+
+div.alert.success, div.alert.error{
+    position: fixed;
+    z-index: 9999;
+    bottom: 0;
+    right: 0;
+    margin: 0 10px 10px 0;
+    padding: 17px;
+    border-radius: 6px;
+    height: 60px;
+}
+
+div.alert.success .btn-close, div.alert.error .btn-close{
+    position: relative;
+    padding: 4px;
+    margin: 0 0 0 10px;
+    cursor: pointer;
+}

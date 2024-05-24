@@ -1,9 +1,11 @@
 import { getModificationDilemme, updateModificationDilemme } from "../services/modification.service.js";
+import { getDilemmeDefauts } from "../services/dilemme_defaut.service.js";
 
-export const afficherModification = async (req, res) => {
+
+export const afficherModification2 = async (req, res) => {
     const modificationDilemme = await getModificationDilemme();
-    console.log(modificationDilemme);
-    return res.render("admin/handleDilemme.ejs", {title: "Modification", modification: modificationDilemme});
+    const dilemmes = await getDilemmeDefauts();
+    return res.render("admin/handleDilemme.ejs", {title: "Modification", modification: modificationDilemme, dilemmes});
 };
 
 export const modifierDilemme = async (req, res) => {

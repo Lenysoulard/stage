@@ -1,12 +1,10 @@
 import { getNumberOfReponse as getNumber, getReponseExport } from '../repositories/reponse.repository.js';
 import { getDilemmeDefautById } from '../repositories/dilemme_defaut.repository.js'; 
-import { getDilemmeContextualiseById } from '../repositories/dilemme_contextualise.repository.js';
-import {getContexteById} from '../repositories/contexte.repository.js';
 import ExportReponse from '../models/export_reponse.model.js';
 import { writeFile } from 'fs/promises';
 import archiver from 'archiver';
+import path from 'path';
 import fs from 'fs';
-import { time } from 'console';
 
 
 export const getNumberOfReponse = async () => {
@@ -30,7 +28,7 @@ export const getExport = async () => {
                 exportReponse.region,
                 exportReponse.pays,
                 exportReponse.education,
-                exportReponse.occupation,
+                exportReponse.information,
                 exportReponse.commentaire,
                 exportReponse.dilemmes
             );
@@ -51,7 +49,7 @@ export const dataToCSVV1 = (rows, fields) => {
         item.region,
         item.pays,
         item.education,
-        item.occupation,
+        item.information,
         item.commentaire.replace(/;/g, ','), // Replace commas to avoid CSV format issues
         JSON.stringify(item.dilemmes).replace(/;/g, ',') // Convert dilemmes to JSON and handle commas
     ].join(';'));
@@ -64,7 +62,12 @@ export const dataToCSVV1 = (rows, fields) => {
 }
 
 export const dataToCSVV2 =  async (rows, fields) => {
-    const headers = fields.map(header => header.name);
+    const headers = fields.map(header => {
+        if (header.name === 'dilemmes') {
+            return;
+        }
+        return header.name
+    });
     const idpersonnes = rows.map(item => item.id);
     const records = rows.map(item => [
         item.id,
@@ -74,54 +77,30 @@ export const dataToCSVV2 =  async (rows, fields) => {
         item.region,
         item.pays,
         item.education,
-        item.occupation,
+        item.information,
         item.commentaire.replace(/;/g, ','), // Replace commas to avoid CSV format issues // Convert dilemmes to JSON and handle commas
     ].join(';'));
 
     const csvContent = [headers.join(';'), ...records].join('\n');
-    
-    const filePath = 'download/infospersonne.csv';
+     
+    const filePath = path.join('download', 'infospersonne.csv');
     
     await writeFile(filePath, csvContent)
         .catch(err => console.error('Error writing CSV file:', err));
 
-    const headersDilemmes = ['id','choix', 'dilemme_defaut', 'contexte(s)', 'temps_reponse'];
+    const headersDilemmes = ['id personne','choix', 'dilemme defaut','temps de réponse'];
     
     const recordsDilemmes = [];
     let count = 0;
     for (const reponse of rows) {
         let dilemmeData = [];
-        let contexte = [];
         let i = null;
         let dilemmeDefaut = { description: ''};
         for (const reponseDilemme of reponse.dilemmes) {
             if (i != reponseDilemme.id_dilemme_defaut) {
                 dilemmeDefaut = await getDilemmeDefautById(reponseDilemme.id_dilemme_defaut);
-                contexte = [];
             }
-            let id = null;
-            if (reponseDilemme.id_dilemme_contextualise != null){
-                if ((reponseDilemme.id_dilemme_contextualise).length == 3 || (reponseDilemme.id_dilemme_contextualise).length == 2){
-                    id = (reponseDilemme.id_dilemme_contextualise).slice(1);
-                }else if ((reponseDilemme.id_dilemme_contextualise).length == 6){
-                    id = (reponseDilemme.id_dilemme_contextualise).slice(4);
-                }
-                else if ((reponseDilemme.id_dilemme_contextualise).length == 4){
-                    id = (reponseDilemme.id_dilemme_contextualise).slice(3);
-                }
-                else if ((reponseDilemme.id_dilemme_contextualise).length == 5){
-                    if ((reponseDilemme.id_dilemme_contextualise)[2] == " "){
-                        id = (reponseDilemme.id_dilemme_contextualise).slice(3);
-                    }else{
-                        id = (reponseDilemme.id_dilemme_contextualise).slice(4);
-                    }
-                }
-            }
-            if (id != null){
-                const dilemmeContextualise = await getDilemmeContextualiseById(id);
-                contexte.push((await getContexteById(dilemmeContextualise[0].id_contexte))[0].description);
-            }
-            dilemmeData.push(`${idpersonnes[count]};${reponseDilemme.choix};${dilemmeDefaut[0].description};${contexte.join(', ')};${reponseDilemme.time ?? 'Pas de temps de réponse'}`);
+            dilemmeData.push(`${idpersonnes[count]};${reponseDilemme.choix};${dilemmeDefaut[0].description};${reponseDilemme.time ?? 'Pas de temps de réponse'}`);
             i = reponseDilemme.id_dilemme_defaut;
         }
         recordsDilemmes.push(dilemmeData.join('\n') + '\n');
@@ -130,12 +109,12 @@ export const dataToCSVV2 =  async (rows, fields) => {
 
     const csvContentDilemmes = [headersDilemmes.join(';'), ...recordsDilemmes].join('\n');
 
-    const filePathDilemmes = 'download/dilemmes.csv';
+    const filePathDilemmes = path.join('download', 'dilemmes.csv');
 
     await writeFile(filePathDilemmes, csvContentDilemmes)
         .catch(err => console.error('Error writing CSV file:', err));
 
-    const archivePath = 'download/export.zip';
+        const archivePath = path.join('download', 'export.zip');
 
     const archive = archiver('zip', { zlib: { level: 9 } });
     const output = fs.createWriteStream(archivePath);
@@ -168,49 +147,23 @@ export const dataToJSON = async (rows, fields) => {
         region: item.region,
         pays: item.pays,
         education: item.education,
-        occupation: item.occupation,
+        information: item.information,
         commentaire: item.commentaire.replace(/;/g, ',') // Remplacer les point-virgules pour éviter les problèmes de format
     }));
     
     const jsonDilemmes = [];
     for (const reponse of rows) {
-        let contexte = [];
         let dilemmeDefaut = { description: '' };
         let i = null;
         const jsonData = [];
         for (const reponseDilemme of reponse.dilemmes) {
             if (reponseDilemme.id_dilemme_defaut != i) {
                 dilemmeDefaut = await getDilemmeDefautById(reponseDilemme.id_dilemme_defaut);
-                contexte = [];
-            }
-
-            let id = null;
-            if (reponseDilemme.id_dilemme_contextualise != null){
-                if ((reponseDilemme.id_dilemme_contextualise).length == 3 || (reponseDilemme.id_dilemme_contextualise).length == 2){
-                    id = (reponseDilemme.id_dilemme_contextualise).slice(1);
-                }else if ((reponseDilemme.id_dilemme_contextualise).length == 6){
-                    id = (reponseDilemme.id_dilemme_contextualise).slice(4);
-                }
-                else if ((reponseDilemme.id_dilemme_contextualise).length == 4){
-                    id = (reponseDilemme.id_dilemme_contextualise).slice(3);
-                }
-                else if ((reponseDilemme.id_dilemme_contextualise).length == 5){
-                    if ((reponseDilemme.id_dilemme_contextualise)[2] == " "){
-                        id = (reponseDilemme.id_dilemme_contextualise).slice(3);
-                    }else{
-                        id = (reponseDilemme.id_dilemme_contextualise).slice(4);
-                    }
-                }
-            }
-            if (id) {
-                const dilemmeContextualise = await getDilemmeContextualiseById(id);
-                contexte.push(dilemmeContextualise && dilemmeContextualise.length ? (await getContexteById(dilemmeContextualise[0].id_contexte))[0].description : "Contexte non disponible");
             }
 
             jsonData.push({
                 choix: reponseDilemme.choix,
-                descriptionDefaut: dilemmeDefaut[0].description,
-                contexte: contexte.join(', '),
+                description: dilemmeDefaut[0].description,
                 time: reponseDilemme.time ?? 'Pas de temps de réponse'
             });
             i = reponseDilemme.id_dilemme_defaut;

@@ -1,25 +1,40 @@
-<%- include('../shared/header.ejs') %>
-
-<% if (locals.error){ %>
-    <div class="alert alert-danger w-50 mx-auto mt-3">
-        <p><%= error %></p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style2.css">
+    <script src="../../public/js/bootstrap.min.js" defer></script>
+</head>
+<body>
+    <main>
+    <div class="d-flex flex-column align-items-center container" id="div-login">
+        <h2>Connectez-vous</h2>
+        <div class="d-grid h-100">
+            
+            <div <% if (locals.error){ %> class="margin-40" <% } %>>
+                <% if (locals.error){ %>
+                    <div class="alert alert-danger  mx-auto">
+                        <p><%= error %></p>
+                    </div>
+                <% } %>
+                <form action="/login" method="post" class="w-100 d-flex flex-column align-items-center gap-3">
+                    <label class="d-flex flex-column">
+                        Identifiant
+                        <input type="text" name="login" id="login" required>
+                    </label>
+                    <label class="d-flex flex-column">
+                        Mot de passe
+                        <input type="password" name="password" id="password" required>
+                    </label>
+                    <button type="submit" class="mx-auto">Connexion</button>
+                </form>
+            </div>
+            <p>La connexion est accessible uniquement pour les administrateurs du site ; il est donc impossible de créer un compte.</p>
+        </div>
     </div>
-<% } %>
-
-<div class="container mt-5">
-    <h1 class="text-center">Se connecter</h1>
-    <form action="/login" method="post" class="w-50 mx-auto d-flex flex-column align-items-center">
-        <div class="mb-3">
-            <label for="login" class="form-label">Identifiant</label>
-            <input type="text" class="form-control" id="login" name="login" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary mb-3">Se connecter</button>
-    </form>
     
-</div>
 
 <%- include('../shared/footer.ejs') %>

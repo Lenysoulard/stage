@@ -2,10 +2,8 @@
 <div class="mx-auto mb-5" data-time="<%= modification ? modification.temps_reponse : false%>" data-btn-couleur="<%= modification ? modification.bouton_couleur : false %>">
 
     <div class="mx-auto w-75" style="margin-top: 10em;" id="incarnation">
-        <h2 class="mb-5">Information</h2>
         <p class="w-75">
-            Pour répondre aux situations qui vont vous être proposé, vous allez devoir choisir vos réponses en imaginant que vous êtes une <span id="ia">IA</span>.
-            C'est à dire que vous allez devoir répondre en fonction de ce que vous pensez qu'une IA devrait répondre.
+            <span id="movingSpan"></span>
         </p>
     </div>
 
@@ -19,14 +17,28 @@
         </div>
         <h2 class="my-5 mx-auto">Que faites-vous ?</h2>
         <div class="w-75 mx-auto">
-            <div class="d-flex justify-content-evenly gap-5">
-                <div class="d-flex align-items-center w-75">
-                    <p class="m-0"><%= dilemme.choix1 %></p>
-                    <input type="radio" name="choix" id="choix1" class="ms-4 custom-radio">
-                </div>
-                <div class="d-flex align-items-center w-75">
-                    <p class="m-0"><%= dilemme.choix2 %></p>
-                    <input type="radio" name="choix" id="choix2" class="ms-4 custom-radio">
+            <div class="d-flex justify-content-center">
+                <div class="d-grid" id="container-reponse">
+                    <label for="reponse1" class="mb-3">Pas du tout d'accord</label>
+                    <input class="radio-reponse" type="radio" id="reponse1" name="reponse" value="1" required>
+
+                    <label for="reponse2" class="mb-3"></label>
+                    <input class="radio-reponse" type="radio" id="reponse2" name="reponse" value="2" required>
+                
+                    <label for="reponse3" class="mb-3"></label>
+                    <input class="radio-reponse" type="radio" id="reponse3" name="reponse" value="3" required>
+                
+                    <label for="reponse4" class="mb-3"></label>
+                    <input class="radio-reponse" type="radio" id="reponse4" name="reponse" value="4" required>
+                
+                    <label for="reponse5" class="mb-3"></label>
+                    <input class="radio-reponse" type="radio" id="reponse5" name="reponse" value="5" required>
+                
+                    <label for="reponse4" class="mb-3"></label>
+                    <input class="radio-reponse" type="radio" id="reponse4" name="reponse" value="6" required>
+                
+                    <label for="reponse5" class="mb-3">Tout à fait d'accord</label>
+                    <input class="radio-reponse" type="radio" id="reponse5" name="reponse" value="7" required>
                 </div>
             </div>
         </div>
@@ -139,18 +151,4 @@
 
 
 
-<template id="contexte_template">
-    <div class="mx-auto w-75" id="contexte" data-id-contexte="">
-        <h2 class="my-5 mx-auto" >Contexte : </h2>
-        <ul id="list_contexte">
-            <li></li>
-        </ul>
-    </div>
-</template>
 
-<template id="reponse_send_template">
-    <div class="d-flex flex-column align-items-center" id="reponse_send">
-        <img class="img-fluid w-25" src="/img/icone_sendform.png" alt="Icone reponse envoyée">
-        <h2 class="text-center">Votre participation a bien été enregistré</h2>
-    </div>
-</template>

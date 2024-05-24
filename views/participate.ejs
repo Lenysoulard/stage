@@ -1,0 +1,112 @@
+<%- include('./shared/header.ejs', {title: title}) %>
+
+    <div class="mx-auto w-50" data-time="<%= modification ? modification.temps_reponse : false%>" data-btn-couleur="<%= modification ? modification.bouton_couleur : false %>">
+        <div id="incarnation" data-id-incarnation="">
+            <h1>Première étape</h1>
+            <div class="d-flex">
+                <p></p>
+                <img src="" alt="">
+            </div>
+        </div>
+        <div class="collapse" id="dilemme" data-id-defaut="<%= dilemme.id %>">
+            <h1 class="ps-5 pt-5 pb-3">Dilemme n°1/9</h1>
+            <p class="ms-5" style="width: 85%;" id="dilemme-description">
+                <%= dilemme.description %>
+            </p>
+            <h2 class="ps-5 pt-2 pb-2">Votre avis ?</h2>
+            <div id="container-reponse">
+                <div class="d-flex w-100 justify-content-around">
+                    <label for="reponse1">Pas du tout d'accord</label>
+                    <label for="reponse4">Ni d'accord, ni pas d'accord</label>
+                    <label for="reponse7">Tout à fait d'accord</label>
+                </div>
+                <div>
+                    <input class="radio-reponse" type="radio" id="reponse1" name="reponse" value="1" required>
+                    <input class="radio-reponse" type="radio" id="reponse2" name="reponse" value="2" required>
+                    <input class="radio-reponse" type="radio" id="reponse3" name="reponse" value="3" required>
+                    <input class="radio-reponse" type="radio" id="reponse4" name="reponse" value="4" required>
+                    <input class="radio-reponse" type="radio" id="reponse5" name="reponse" value="5" required>
+                    <input class="radio-reponse" type="radio" id="reponse6" name="reponse" value="6" required>
+                    <input class="radio-reponse" type="radio" id="reponse7" name="reponse" value="7" required>
+                </div>
+            </div>
+        </div>
+        <button id="btn-suivant">Suivant ➜</button>
+    
+
+        <div class="collapse w-100" id="form">
+            <h1 class="mt-5 mb-3 mx-auto" style="width: 42vw;">Formulaire de participation</h1>
+            <form  action="/users" method="post" >
+                <div class="d-flex">
+                    <div>
+                        <label for="age">Age *</label>
+                        <input type="number" id="age" name="age" min="0" required>
+                    </div>
+                    <div>
+                        <label for="sexe">Sexe *</label>
+                        <select id="sexe" name="sexe" required>
+                            <option value="" hidden>Choisissez votre sexe</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                            <option value="Autre">Autre</option>
+                            <option value="None">Préfère ne pas répondre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div style="width: 85.3%;">
+                        <label for="ville">Ville *</label>
+                        <input type="text" id="ville" name="ville" required>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <label for="region">Region</label>
+                        <input type="text" id="region" name="region">
+                    </div>
+                    <div>
+                        <label for="pays">Pays *</label>
+                        <input type="text" id="pays" name="pays" required>
+                    </div>
+                </div>
+                <div class="d-flex mx-auto justify-content-center flex-column">
+                    <div class="last-3-input">
+                        <label for="education">Education *</label>
+                        <select id="education" name="education" required>
+                            <option value="" hidden>Choisissez un diplôme</option>
+                            <option value="Bac-moins">Baccalauréat ou moins</option>
+                            <option value="BUT-BTS">BUT/BTS</option>
+                            <option value="Licence">Licence</option>
+                            <option value="Mast-Inge">Master/diplôme d'ingénieur</option>
+                            <option value="Doctorat-plus">Doctorat ou plus</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex mx-auto justify-content-center flex-column">
+                    <div class="last-3-input">
+                        <label for="information">Information *</label>
+                        <select name="information" id="information" required>
+                            <option value="" hidden>Choisissez une option</option>
+                            <option value="etudiant">Étudiant</option>
+                            <option value="employe_temps_plein">Employé à temps plein</option>
+                            <option value="employe_temps_partiel">Employé à temps partiel</option>
+                            <option value="sans_emploi">Sans emploi</option>
+                            <option value="retraite">Retraité</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>        
+                </div>
+                <div class="d-flex mx-auto justify-content-center flex-column">
+                    <div class="last-3-input">
+                        <label for="commentaire">Commentaire</label>
+                        <textarea id="commentaire" name="commentaire"></textarea>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center my-4">
+                    <input type="submit" id="btn-submit">
+                </div>
+            </form>
+        </div>
+    </div>  
+
+<%- include('./shared/footer.ejs') %>

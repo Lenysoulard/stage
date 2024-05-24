@@ -108,14 +108,33 @@ form input[type="submit"]{
     border-radius: 5px;
     width: 20%;
 }
+.radio-reponse{
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    grid-row: 2;
+    cursor: pointer;
+    border: 2px solid #bbb;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
 
+.radio-reponse:checked {
+    background-color: #007bff; /* Couleur de fond quand sélectionné */
+    border-color: #007bff; /* Couleur de bordure quand sélectionné */
+}
+
+#container-reponse{
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+    justify-items: center;
+}
 
 #dilemme{
     margin-top: 8em;
 }
-
-
-
 
 
 .custom-radio {
