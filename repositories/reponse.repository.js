@@ -42,7 +42,7 @@ export const getNumberOfReponse = async () => {
 
 export const getReponseExport = async () => {
     try {
-        const result = await pool.query('SELECT i.id, age, sexe, ville, region, pays, education, information, commentaire, dilemmes FROM reponses r JOIN infospersonne i ON i.id=r.id_personne');
+        const result = await pool.query('SELECT i.id, age, sexe, ville, pays, education, information, commentaire, dilemmes FROM reponses r JOIN infospersonne i ON i.id=r.id_personne');
         return result;
     } catch (err) {
         throw new Error(err);

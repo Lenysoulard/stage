@@ -4,9 +4,10 @@ if (form) {
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         const temps_reponse = document.getElementsByName('temps_reponse')[0].checked;
-        const bouton_couleur = document.getElementsByName('bouton_couleur')[0].checked;
-        const reponse_ia = document.getElementsByName('reponse_IA')[0].checked;
-        const data = {temps_reponse, bouton_couleur, reponse_ia};
+        // const bouton_couleur = document.getElementsByName('bouton_couleur')[0].checked;
+        // const reponse_ia = document.getElementsByName('reponse_IA')[0].checked;
+        // const data = {temps_reponse, bouton_couleur, reponse_ia};
+        const data = {temps_reponse, bouton_couleur: false, reponse_ia: false};
         fetch('/admin/modifications', {
             method: 'PATCH',
             headers: {

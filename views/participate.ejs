@@ -1,6 +1,6 @@
 <%- include('./shared/header.ejs', {title: title}) %>
 
-    <div class="mx-auto w-50" data-time="<%= modification ? modification.temps_reponse : false%>" data-btn-couleur="<%= modification ? modification.bouton_couleur : false %>">
+    <div class="mx-auto " data-time="<%= modification ? modification.temps_reponse : false%>" data-btn-couleur="<%= modification ? modification.bouton_couleur : false %>">
         <div id="incarnation" data-id-incarnation="">
             <h1>Première étape</h1>
             <div class="d-flex">
@@ -8,11 +8,9 @@
                 <img src="" alt="">
             </div>
         </div>
-        <div class="collapse" id="dilemme" data-id-defaut="<%= dilemme.id %>">
+        <div class="collapse" id="dilemme" data-id-defaut="">
             <h1 class="ps-5 pt-5 pb-3">Dilemme n°1/9</h1>
-            <p class="ms-5" style="width: 85%;" id="dilemme-description">
-                <%= dilemme.description %>
-            </p>
+            <p id="dilemme-description"></p>
             <h2 class="ps-5 pt-2 pb-2">Votre avis ?</h2>
             <div id="container-reponse">
                 <div class="d-flex w-100 justify-content-around">
@@ -35,7 +33,7 @@
     
 
         <div class="collapse w-100" id="form">
-            <h1 class="mt-5 mb-3 mx-auto" style="width: 42vw;">Formulaire de participation</h1>
+            <h1 class="mt-5 mb-3 mx-auto">Formulaire de participation</h1>
             <form  action="/users" method="post" >
                 <div class="d-flex">
                     <div>
@@ -54,15 +52,9 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div style="width: 85.3%;">
+                    <div>
                         <label for="ville">Ville *</label>
                         <input type="text" id="ville" name="ville" required>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div>
-                        <label for="region">Region</label>
-                        <input type="text" id="region" name="region">
                     </div>
                     <div>
                         <label for="pays">Pays *</label>
@@ -71,14 +63,15 @@
                 </div>
                 <div class="d-flex mx-auto justify-content-center flex-column">
                     <div class="last-3-input">
-                        <label for="education">Education *</label>
+                        <label for="education">Education/Cursus en cours *</label>
                         <select id="education" name="education" required>
                             <option value="" hidden>Choisissez un diplôme</option>
-                            <option value="Bac-moins">Baccalauréat ou moins</option>
-                            <option value="BUT-BTS">BUT/BTS</option>
-                            <option value="Licence">Licence</option>
-                            <option value="Mast-Inge">Master/diplôme d'ingénieur</option>
-                            <option value="Doctorat-plus">Doctorat ou plus</option>
+                            <option value="Bac-ou-moins">Baccalauréat ou moins</option>
+                            <option value="Prepa">Classe préparatoire</option>
+                            <option value="DUT-BTS-Bac+2">DUT/BTS ou autre diplôme bac +2</option>
+                            <option value="Licence-BUT-Bac+3">Licence/BUT ou autre diplôme bac +3</option>
+                            <option value="Master-Ingenieur-Bac+5">Master/diplôme d'ingénieur ou autre diplôme bac +5</option>
+                            <option value="Doctorat-ou-plus">Doctorat ou plus</option>
                         </select>
                     </div>
                 </div>

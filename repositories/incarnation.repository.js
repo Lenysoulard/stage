@@ -17,3 +17,12 @@ export const getIncarnationById = async (id) => {
         throw new Error(err);
     }
 }
+
+export const getNumberOfIncarnations = async () => {
+    try {
+        const {rows} = await pool.query("SELECT COUNT(*) FROM incarnation");
+        return rows;
+    } catch (err) {
+        throw new Error(err);
+    }
+}

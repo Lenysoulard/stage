@@ -1,9 +1,10 @@
 import { createUser as createUserRep, getUsers,getUserById} from '../repositories/user.repository.js';
 import User from '../models/user.model.js';
 
-export const create = async (age, sexe, ville, region, pays, education, information, commentaire) => {
+export const create = async (age, sexe, ville, pays, education, information, commentaire) => {
 	try {
-		const user = new User(null, age, sexe, ville, region, pays, education, information, commentaire);
+		const user = new User(null, age, sexe, ville, pays, education, information, commentaire);
+		console.log(user);
 		return await createUserRep(user);
 	} catch (err) {
 		throw new Error(err);

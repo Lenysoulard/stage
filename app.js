@@ -7,6 +7,7 @@ import dilemmeDefautRoute from "./routes/dilemme_defaut.route.js";
 import authRoute from "./routes/auth.route.js";
 import statistiqueRoute from "./routes/statistique.route.js";
 import modificationRoute from "./routes/modification.route.js";
+import incarnationRoute from "./routes/incarnation.route.js";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { query, gpt4allTest } from "./controllers/ai.controller.js";
@@ -60,6 +61,7 @@ app.use(dilemmeDefautRoute);
 app.use(authRoute);
 app.use(statistiqueRoute);
 app.use(modificationRoute);
+app.use(incarnationRoute);
 app.post("/query", async (req, res) => {
     const data = req.body.inputs;
     const result = await gpt4allTest();

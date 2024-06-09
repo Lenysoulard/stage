@@ -3,8 +3,9 @@ import {create, getUserSexe, getUsersAge} from '../services/user.service.js';
 
 export const createUser = async (req, res) => {
   try {
-    const {age, sexe, ville, region, pays, education, information, commentaire } = req.body;
-    const id_personne = await create(age, sexe, ville, region, pays, education, information, commentaire);
+    const {age, sexe, ville, pays, education, information, commentaire } = req.body;
+    console.log(req.body);
+    const id_personne = await create(age, sexe, ville, pays, education, information, commentaire);
     return res.status(201).json({id: id_personne});
   } catch (err) {
     return res.status(500).send(err.message);

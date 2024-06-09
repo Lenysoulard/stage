@@ -2,26 +2,46 @@ const btn_suivant = document.getElementById('btn-suivant');
 const choixtab = [];
 const idDilemmeDefautDejaVu = [];
 let count = 0;
-const countMax = 9;
+let countMax = 0;
+let countIncarnation = 0;
+let countDilemme = 0;
 let answerTime = 0;
 const useAnswerTime = document.querySelector('main > div').dataset.time;
 const useBtnCouleur = document.querySelector('main > div').dataset.btnCouleur;
 const incarnationAlreadySeen = [];
-const incarnation = ['qu\'un robot humanoïde', 'que vous-même', 'qu\'une autre personne du même age et sexe que vous'];
+let incarnation = [];
 let incarnationBool = false;
-
-onload = () => {
-    const random = Math.floor(Math.random() * incarnation.length);
-    const element = incarnation[random];
-    showIncaration(element);
-    incarnationAlreadySeen.push(element);
-    incarnation.splice(random, 1)
-}
+let dilemmesId = [];
 
 
+if (btn_suivant){
+     onload = async () => {
+        let element = {};
+        fetch('/incarnation')
+        .then(response => response.json())
+        .then(data => {
+            incarnation = data;
+            let random = Math.floor(Math.random() * incarnation.length);
+            while (incarnationAlreadySeen.includes(incarnation[random])) {
+                random = Math.floor(Math.random() * incarnation.length);
+            }
+            element = incarnation[random];
+            incarnationAlreadySeen.push(element);
+            incarnation.splice(random, 1);
+            showIncaration2(element);
+        }).catch(err => console.error(err));
 
-
-if (btn_suivant)
+        const reposne = await fetch('/dilemmes_defaut');
+        const data = await reposne.json();
+        dilemmesId = data.map(dilemme => dilemme.id);
+        dilemmesId.sort((a, b) => a - b);
+        const reponseNumber = await fetch('/incarnation/count');
+        const dataNumber = await reponseNumber.json();
+        countIncarnation = dataNumber;
+        countMax = dilemmesId.length * countIncarnation;
+        countDilemme = dilemmesId.length;
+        await showNewDilemme();
+    }
 btn_suivant.addEventListener('click', async function() {
     if (count == 0 || incarnationBool) {
         hideIncarnation();
@@ -30,7 +50,7 @@ btn_suivant.addEventListener('click', async function() {
         incarnationBool = false;
         if (!incarnationBool)count++;
     }
-    else if (count%(countMax/3) == 0 && count != 1 && count != 9 && !incarnationBool) {
+    else if (count%(countDilemme) == 0 && count != 1 && count != countMax && !incarnationBool) {
         if (AnChoiceIsChecked()) {
             incarnationBool = true;
             await DilemmesHandler();
@@ -38,7 +58,7 @@ btn_suivant.addEventListener('click', async function() {
             const element = incarnation[random];
             incarnationAlreadySeen.push(element);
             incarnation.splice(random, 1);
-            showIncaration(element);
+            showIncaration2(element);
 
             // Uncheck all choices
             document.getElementsByName('reponse').forEach(radio => { radio.checked = false});
@@ -58,6 +78,7 @@ btn_suivant.addEventListener('click', async function() {
         if (AnChoiceIsChecked()) {
             pushChoixTab();
             document.getElementById('dilemme').remove();
+            document.getElementById('incarnation').remove();
             document.getElementById('form').classList.remove('collapse');
             btn_suivant.remove();
         } else {
@@ -66,6 +87,7 @@ btn_suivant.addEventListener('click', async function() {
     }
     
 });
+}
 
 function getAnswerTime() {
     if (useAnswerTime == 'true')
@@ -73,21 +95,48 @@ function getAnswerTime() {
 }
 
 
-function showIncaration(element) {
-    const incarnation = document.getElementById('incarnation');
+function showIncaration2(element) {
+    const incarnationDiv = document.getElementById('incarnation');
+    switch (count) {
+        case 0: incarnationDiv.firstElementChild.textContent = 'Première étape';
+        break;
+        case 3: incarnationDiv.firstElementChild.textContent = 'Deuxième étape';
+        break;
+        case 6: incarnationDiv.firstElementChild.textContent = 'Troisième étape';
+        break;
+    }
+    incarnationDiv.firstElementChild.classList.remove('collapse');
+    incarnationDiv.firstElementChild.classList.remove('hide-title');
+    incarnationDiv.querySelector('div').style.padding = '';
+
+    let img = '/img/';
+    let alt;
+    let className;
+
+    if (element.id == 1) {
+        img += 'robot.jpg';
+        alt = 'Robot humanoïde';
+        className = "img-robot";
+    } else if (element.id == 2) {
+        img += 'homme-femme.jpeg';
+        alt = 'Vous-même';
+        className = "img-homme-femme";
+    }
+    else {
+        img += 'autre.jpg';
+        alt = 'Autre personne';
+        className = "img-autre";
+    }
+
+    incarnationDiv.querySelector('img').src = img;
+    incarnationDiv.querySelector('img').alt = alt;
+    incarnationDiv.querySelector('img').classList.add(className);
+    document.getElementById('incarnation').dataset.idIncarnation = element.id;
+    document.getElementById('incarnation').querySelector('p').textContent = element.description;
     const dilemme = document.getElementById('dilemme');
-    const oldspan = document.getElementById('movingSpan')
-    if (oldspan) oldspan.remove();
-    const p = incarnation.lastElementChild;
-    const span = document.createElement('span');
-    span.textContent = element;
-    span.id='movingSpan';
-    p.textContent = '';
-    p.appendChild(document.createTextNode("Vous allez maintenant répondre aux dilemmes en tant ")); // Ajoute le texte avant le span
-    p.appendChild(span); // Ajoute le span au paragraphe
-    p.appendChild(document.createTextNode(". C'est à dire que vous allez devoir répondre en fonction de ce que vous pensez "+ element +" devrait, selon vous, répondre")); // Ajoute un point après le span
+    
     dilemme.classList.add('collapse');
-    incarnation.classList.remove('hide-incarnation');
+    incarnationDiv.style = '';
 }
 
 async function DilemmesHandler() {
@@ -112,11 +161,12 @@ async function DilemmesHandler() {
 function pushChoixTab() {
     const id_dilemme_defaut = document.getElementById('dilemme').dataset.idDefaut;
     const Listchoix = document.getElementsByName('reponse');
+    const id_incarnation = document.getElementById('incarnation').dataset.idIncarnation;
     const time = getAnswerTime();
     Listchoix.forEach(choixElement => {
         if (choixElement.checked) {
             const choix = choixElement.value;
-            choixtab.push({time, id_dilemme_defaut, choix});
+            choixtab.push({time, id_incarnation, id_dilemme_defaut, choix});
         }
     });
 }
@@ -135,14 +185,20 @@ function AnChoiceIsChecked() {
 async function showNewDilemme() {
     try {
         // Fetch dilemme defaut data
-        const response = await fetch('/dilemme_defaut/' + (count+1));
+        const id = dilemmesId[(count%countDilemme)];
+
+        const response = await fetch('/dilemme_defaut/' + id);
         const data = await response.json();
 
+        const dilemme = document.getElementById('dilemme');
+
         // Set dataset attributes for dilemme element
-        document.getElementById('dilemme').dataset.idDefaut = data.id;
+        dilemme.dataset.idDefaut = data.id;
         
         // Replace dilemme description with new dilemme description
-        document.getElementById('dilemme').querySelector('#dilemme > div > p').textContent = data.description;
+        dilemme.querySelector('p').textContent = data.description;
+
+        dilemme.firstElementChild.textContent = 'Dilemme n°'+ (count+1) +'/'+ countMax;
 
     } catch (err) {
         throw new Error(err);
@@ -158,10 +214,9 @@ document.getElementById('form').querySelector('form').addEventListener('submit',
     const age = document.getElementById('age').value;
     const sexe = document.getElementById('sexe').value;
     const ville = document.getElementById('ville').value;
-    const region = document.getElementById('region').value;
     const pays = document.getElementById('pays').value;
     const education = document.getElementById('education').value;
-    const occupation = document.getElementById('occupation').value;
+    const information = document.getElementById('information').value;
     const commentaire = document.getElementById('commentaire').value;
     
     fetch('/users', {
@@ -169,7 +224,7 @@ document.getElementById('form').querySelector('form').addEventListener('submit',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({age, sexe, ville, region, pays, education, occupation, commentaire}),
+        body: JSON.stringify({age, sexe, ville, pays, education, information, commentaire}),
     })                                      
     .then(response => response.json())
     .then(data => {
@@ -204,23 +259,13 @@ async function fetchReponse(id_personne) {
 }
 
 function hideIncarnation() {
-    const iaElement = document.getElementById('movingSpan');
     const content = document.getElementById('incarnation');
-    const dilemmeElement = document.getElementById('dilemme');
-
-    // Déplace l'IA
-    dilemmeElement.firstElementChild.appendChild(iaElement);
-    if (incarnationAlreadySeen[incarnationAlreadySeen.length-1] == 'qu\'un robot humanoïde') {
-        iaElement.textContent = 'Robot';
-    } else if (incarnationAlreadySeen[incarnationAlreadySeen.length-1] == 'que vous-même') {
-        iaElement.textContent = 'Vous-même';
-    }
-    else {
-        iaElement.textContent = 'Autre personne';
-    }
-  
-    // Ajoute les classes pour déplacer et cacher
-    iaElement.classList.add('move-to-top-right');
-    content.classList.add('hide-incarnation');
-
+    content.firstElementChild.classList.add('hide-title');
+    content.firstElementChild.addEventListener('transitionend', () => {
+        console.log('transitionend');
+        content.firstElementChild.classList.add('collapse');
+    });
+    content.style.margin = '2rem 0 0 0';
+    content.querySelector('p').style.marginTop = '15px';
+    content.querySelector('div').style.padding = '5px';
 }

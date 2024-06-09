@@ -1,4 +1,4 @@
-import { getIncarnationService, getIncarnationByIdService } from "../services/incarnation.service.js";
+import { getIncarnationService, getIncarnationByIdService, getNumberOfIncarnationsService } from "../services/incarnation.service.js";
 
 
 export const getIncarnation = async (req, res) => {
@@ -15,6 +15,15 @@ export const getIncarnationById = async (req, res) => {
         const id = req.params.id;
         const incarnation = await getIncarnationByIdService(id);
         res.status(200).json(incarnation);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
+export const getNumberOfIncarnations = async (req, res) => {
+    try {
+        const numberOfIncarnations = await getNumberOfIncarnationsService();
+        res.status(200).json(numberOfIncarnations);
     } catch (err) {
         res.status(500).json({message: err.message});
     }

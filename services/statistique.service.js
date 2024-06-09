@@ -1,7 +1,8 @@
 import { getNumberOfReponse as getNumber, getReponseExport } from '../repositories/reponse.repository.js';
 import { getDilemmeDefautById } from '../repositories/dilemme_defaut.repository.js'; 
+import { getIncarnationById } from "../repositories/incarnation.repository.js";
 import ExportReponse from '../models/export_reponse.model.js';
-import { writeFile } from 'fs/promises';
+
 import archiver from 'archiver';
 import path from 'path';
 import fs from 'fs';
@@ -25,7 +26,6 @@ export const getExport = async () => {
                 exportReponse.age,
                 exportReponse.sexe,
                 exportReponse.ville,
-                exportReponse.region,
                 exportReponse.pays,
                 exportReponse.education,
                 exportReponse.information,
@@ -61,80 +61,79 @@ export const dataToCSVV1 = (rows, fields) => {
         .catch(err => console.error('Error writing CSV file:', err));
 }
 
-export const dataToCSVV2 =  async (rows, fields) => {
-    const headers = fields.map(header => {
-        if (header.name === 'dilemmes') {
-            return;
-        }
-        return header.name
-    });
+import { promisify } from 'util';
+
+const writeFile = promisify(fs.writeFile);
+
+export const dataToCSVV2 = async (rows, fields) => {
+    const headers = fields
+        .filter(header => header.name !== 'dilemmes')
+        .map(header => header.name);
+
     const idpersonnes = rows.map(item => item.id);
     const records = rows.map(item => [
         item.id,
         item.age,
         item.sexe,
         item.ville,
-        item.region,
         item.pays,
         item.education,
         item.information,
-        item.commentaire.replace(/;/g, ','), // Replace commas to avoid CSV format issues // Convert dilemmes to JSON and handle commas
+        item.commentaire.replace(/;/g, ','), // Replace semicolons to avoid CSV format issues
     ].join(';'));
 
     const csvContent = [headers.join(';'), ...records].join('\n');
-     
     const filePath = path.join('download', 'infospersonne.csv');
     
-    await writeFile(filePath, csvContent)
-        .catch(err => console.error('Error writing CSV file:', err));
-
-    const headersDilemmes = ['id personne','choix', 'dilemme defaut','temps de réponse'];
-    
-    const recordsDilemmes = [];
-    let count = 0;
-    for (const reponse of rows) {
-        let dilemmeData = [];
-        let i = null;
-        let dilemmeDefaut = { description: ''};
-        for (const reponseDilemme of reponse.dilemmes) {
-            if (i != reponseDilemme.id_dilemme_defaut) {
-                dilemmeDefaut = await getDilemmeDefautById(reponseDilemme.id_dilemme_defaut);
-            }
-            dilemmeData.push(`${idpersonnes[count]};${reponseDilemme.choix};${dilemmeDefaut[0].description};${reponseDilemme.time ?? 'Pas de temps de réponse'}`);
-            i = reponseDilemme.id_dilemme_defaut;
-        }
-        recordsDilemmes.push(dilemmeData.join('\n') + '\n');
-        count++;
+    try {
+        await writeFile(filePath, csvContent);
+    } catch (err) {
+        console.error('Error writing CSV file:', err);
     }
 
+    const headersDilemmes = ['id personne', 'choix', 'temps de réponse', 'incarnation', 'dilemme'];
+    const recordsDilemmes = await Promise.all(rows.map(async (reponse, index) => {
+        const dilemmeRecords = await Promise.all(reponse.dilemmes.map(async (reponseDilemme) => {
+            const [dilemmeDefaut, incarnation] = await Promise.all([
+                getDilemmeDefautById(reponseDilemme.id_dilemme_defaut),
+                getIncarnationById(reponseDilemme.id_incarnation)
+            ]);
+            return `${idpersonnes[index]};${reponseDilemme.choix};${reponseDilemme.time ?? 'Pas de temps de réponse'};${incarnation[0].description};${dilemmeDefaut[0].description}`;
+        }));
+        return dilemmeRecords.join('\n');
+    }));
+
     const csvContentDilemmes = [headersDilemmes.join(';'), ...recordsDilemmes].join('\n');
-
     const filePathDilemmes = path.join('download', 'dilemmes.csv');
+    
+    try {
+        await writeFile(filePathDilemmes, csvContentDilemmes);
+    } catch (err) {
+        console.error('Error writing CSV file:', err);
+    }
 
-    await writeFile(filePathDilemmes, csvContentDilemmes)
-        .catch(err => console.error('Error writing CSV file:', err));
-
-        const archivePath = path.join('download', 'export.zip');
-
+    const archivePath = path.join('download', 'export.zip');
     const archive = archiver('zip', { zlib: { level: 9 } });
     const output = fs.createWriteStream(archivePath);
 
-    output.on('close', () => {
-        console.log(archive.pointer() + ' total bytes');
-        console.log('Data has been archived successfully');
+    return new Promise((resolve, reject) => {
+        output.on('close', () => {
+            console.log(archive.pointer() + ' total bytes');
+            console.log('Data has been archived successfully');
+            resolve(archivePath);
+        });
+
+        archive.on('error', err => {
+            reject(new Error(err));
+        });
+
+        archive.file(filePath, { name: 'infospersonne.csv' });
+        archive.file(filePathDilemmes, { name: 'dilemmes.csv' });
+
+        archive.pipe(output);
+        archive.finalize();
     });
-
-    archive.on('error', err => {
-        throw new Error(err);
-    });
-
-    archive.file(filePath, { name: 'infospersonne.csv' });
-    archive.file(filePathDilemmes, { name: 'dilemmes.csv' });
-
-    archive.pipe(output);
-    await archive.finalize();
-    return archivePath;
-}
+};
 
 
 export const dataToJSON = async (rows, fields) => {
@@ -144,34 +143,32 @@ export const dataToJSON = async (rows, fields) => {
         age: item.age,
         sexe: item.sexe,
         ville: item.ville,
-        region: item.region,
         pays: item.pays,
         education: item.education,
         information: item.information,
         commentaire: item.commentaire.replace(/;/g, ',') // Remplacer les point-virgules pour éviter les problèmes de format
     }));
-    
     const jsonDilemmes = [];
     for (const reponse of rows) {
-        let dilemmeDefaut = { description: '' };
-        let i = null;
-        const jsonData = [];
-        for (const reponseDilemme of reponse.dilemmes) {
-            if (reponseDilemme.id_dilemme_defaut != i) {
-                dilemmeDefaut = await getDilemmeDefautById(reponseDilemme.id_dilemme_defaut);
-            }
+        const jsonData = await Promise.all(reponse.dilemmes.map(async (reponseDilemme) => {
+            const [dilemmeDefaut, incarnation] = await Promise.all([
+                getDilemmeDefautById(reponseDilemme.id_dilemme_defaut),
+                getIncarnationById(reponseDilemme.id_incarnation)
+            ]);
 
-            jsonData.push({
+            return {
                 choix: reponseDilemme.choix,
+                incarnation: incarnation[0].description,
                 description: dilemmeDefaut[0].description,
                 time: reponseDilemme.time ?? 'Pas de temps de réponse'
-            });
-            i = reponseDilemme.id_dilemme_defaut;
-        }
+            };
+        }));
+
         const jsonPersonne = jsonPersonnes.find(personne => personne.id === reponse.id);
+
         jsonDilemmes.push({
             infosPersonne: jsonPersonne,
-            dilemmes: [...jsonData]
+            dilemmes: jsonData
         });
     }
 
@@ -184,3 +181,7 @@ export const dataToJSON = async (rows, fields) => {
 
     return filePathDilemmes;
 }
+
+
+
+
